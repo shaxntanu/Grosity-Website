@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grosity - Innovative Solutions for Tomorrow</title>
+    <title>Grosity - Fresh Produce, Direct from Farmers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,22 +12,54 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #333333;
+            --text-secondary: #555555;
+            --text-muted: #666666;
+            --border-color: #dddddd;
+            --accent-primary: #667eea;
+            --accent-secondary: #764ba2;
+            --nav-bg: #2c3e50;
+            --nav-text: #ffffff;
+            --card-bg: #ffffff;
+            --card-shadow: rgba(0,0,0,0.08);
+        }
+
+        html.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-muted: #909090;
+            --border-color: #444444;
+            --nav-bg: #0f0f0f;
+            --nav-text: #e0e0e0;
+            --card-bg: #252525;
+            --card-shadow: rgba(0,0,0,0.3);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--text-primary);
             scroll-behavior: smooth;
+            background-color: var(--bg-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: 400;
         }
 
         /* Navigation */
         nav {
-            background: #2c3e50;
-            color: #fff;
+            background: var(--nav-bg);
+            color: var(--nav-text);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease;
         }
 
         nav .container {
@@ -41,24 +73,45 @@
 
         nav .logo {
             font-size: 1.8rem;
-            font-weight: bold;
+            font-weight: 700;
             color: #3498db;
+            letter-spacing: -0.5px;
+            font-family: 'Playfair Display', serif;
         }
 
         nav ul {
             list-style: none;
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
 
         nav a {
-            color: #fff;
+            color: var(--nav-text);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         nav a:hover {
             color: #3498db;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--nav-text);
+            transition: transform 0.3s ease;
+            padding: 0.5rem;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* Hero Section */
@@ -75,17 +128,33 @@
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
             animation: fadeInUp 1s ease;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.2;
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             margin-bottom: 2rem;
             max-width: 600px;
             animation: fadeInUp 1s ease 0.2s;
             animation-fill-mode: both;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .hero-button-container {
+            margin-top: 1rem;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Sections */
@@ -99,7 +168,11 @@
             font-size: 2.5rem;
             text-align: center;
             margin-bottom: 3rem;
-            color: #2c3e50;
+            color: var(--text-primary);
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-family: 'Playfair Display', serif;
+            line-height: 1.3;
         }
 
         /* About Section */
@@ -107,14 +180,35 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
-            align-items: center;
+            align-items: start;
         }
 
         .about-text p {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
             line-height: 1.8;
-            color: #555;
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .about-text p strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .about-text .tagline {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            line-height: 1.8;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.5px;
         }
 
         .about-features {
@@ -123,25 +217,38 @@
         }
 
         .feature-item {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #3498db;
-            transition: transform 0.3s;
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px var(--card-shadow);
         }
 
         .feature-item:hover {
             transform: translateX(10px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
         }
 
         .feature-item h3 {
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
         }
 
         /* Services Section */
         #services {
-            background: #f8f9fa;
+            background: var(--bg-secondary);
         }
 
         .services-grid {
@@ -152,17 +259,17 @@
         }
 
         .service-card {
-            background: #fff;
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 10px;
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px var(--card-shadow);
         }
 
         .service-icon {
@@ -171,8 +278,20 @@
         }
 
         .service-card h3 {
-            color: #2c3e50;
+            color: var(--text-primary);
             margin-bottom: 1rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            letter-spacing: -0.3px;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 400;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
         }
 
         /* Contact Section */
@@ -188,48 +307,77 @@
             gap: 2rem;
         }
 
+        .contact-info h3 {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            letter-spacing: -0.3px;
+        }
+
+        .contact-info h4 {
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
         .contact-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 1rem;
         }
 
         .contact-icon {
             font-size: 2rem;
-            color: #3498db;
+            color: #667eea;
+            flex-shrink: 0;
         }
 
         .contact-item a {
-            color: #3498db;
+            color: #667eea;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color 0.3s ease;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         .contact-item a:hover {
-            color: #2980b9;
-            text-decoration: underline;
+            color: #764ba2;
+        }
+
+        .contact-item p {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-secondary);
         }
 
         .contact-form {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            position: relative;
+            z-index: 10;
         }
 
         .contact-form input,
         .contact-form textarea {
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             font-size: 1rem;
-            font-family: inherit;
-            transition: border-color 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            position: relative;
+            z-index: 11;
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
 
         .contact-form input:focus,
         .contact-form textarea:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
         .contact-form textarea {
@@ -237,61 +385,121 @@
             resize: vertical;
         }
 
+        .form-button-container {
+            margin-top: 1.5rem;
+            height: 56px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 12;
+        }
+
         /* Social Media Section */
         .social-section {
             text-align: center;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
-            padding: 60px 20px;
+            padding: 80px 20px;
+            border-radius: 20px;
+            margin: 0 20px;
+        }
+
+        .social-section h2 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 2.8rem;
+        }
+
+        .social-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.3px;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
+            align-items: center;
+            gap: 2.5rem;
+            margin-top: 3rem;
         }
 
-        .social-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
+        .social-link-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .social-link-btn:hover {
+            transform: translateY(-8px);
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+        }
+
+        .social-logo-container {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: #fff;
-            text-decoration: none;
-            transition: transform 0.3s, background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 10px;
         }
 
-        .social-icon:hover {
-            transform: scale(1.2);
-            background: rgba(255, 255, 255, 0.3);
+        .social-link-btn:hover .social-logo-container {
+            background: #fff;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .social-logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .social-label {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: -0.3px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         /* Footer */
         footer {
-            background: #2c3e50;
-            color: #fff;
+            background: var(--nav-bg);
+            color: var(--nav-text);
             text-align: center;
             padding: 2rem;
+            font-weight: 400;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Custom Button Style */
+        /* Button Styles - Neumorphic Layered Button with Color Shift Effect */
         .button {
             --stone-50: #fafaf9;
             --stone-800: #292524;
-            --yellow-400: #facc15;
+            --primary-accent: #667eea;
 
-            font-family: "Rubik", sans-serif;
+            font-family: "Rubik", -apple-system, BlinkMacSystemFont, sans-serif;
             cursor: pointer;
             position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-weight: 600;
             line-height: 1;
             font-size: 1rem;
             border-radius: 1rem;
@@ -300,87 +508,33 @@
             color: var(--stone-50);
             border: none;
             background: transparent;
+            overflow: visible;
         }
 
         .button:active {
-            outline-color: var(--yellow-400);
+            outline-color: var(--primary-accent);
         }
 
         .button:focus-visible {
-            outline-color: var(--yellow-400);
+            outline-color: var(--primary-accent);
             outline-style: dashed;
         }
 
-        .button::before {
-            content: "";
-            position: absolute;
-            z-index: 0;
-            height: 200%;
-            max-height: 100px;
-            aspect-ratio: 1;
-            margin: auto;
-            background: white;
-            clip-path: polygon(100% 50%,
-                    91.48% 56.57%,
-                    97.55% 65.45%,
-                    87.42% 69.07%,
-                    90.45% 79.39%,
-                    79.7% 79.7%,
-                    79.39% 90.45%,
-                    69.07% 87.42%,
-                    65.45% 97.55%,
-                    56.57% 91.48%,
-                    50% 100%,
-                    43.43% 91.48%,
-                    34.55% 97.55%,
-                    30.93% 87.42%,
-                    20.61% 90.45%,
-                    20.3% 79.7%,
-                    9.55% 79.39%,
-                    12.58% 69.07%,
-                    2.45% 65.45%,
-                    8.52% 56.57%,
-                    0% 50%,
-                    8.52% 43.43%,
-                    2.45% 34.55%,
-                    12.58% 30.93%,
-                    9.55% 20.61%,
-                    20.3% 20.3%,
-                    20.61% 9.55%,
-                    30.93% 12.58%,
-                    34.55% 2.45%,
-                    43.43% 8.52%,
-                    50% 0%,
-                    56.57% 8.52%,
-                    65.45% 2.45%,
-                    69.07% 12.58%,
-                    79.39% 9.55%,
-                    79.7% 20.3%,
-                    90.45% 20.61%,
-                    87.42% 30.93%,
-                    97.55% 34.55%,
-                    91.48% 43.43%);
-            animation: star-rotate 4s linear infinite;
-            opacity: 0.1;
-        }
-
-        .button:hover::before {
-            opacity: 1;
-        }
-
-        .button>div {
+        .button > div {
             padding: 2px;
             border-radius: 1rem;
-            background-color: var(--yellow-400);
+            background-color: var(--primary-accent);
             transform: translate(-4px, -4px);
             transition: all 150ms ease;
+            position: relative;
+            z-index: 2;
             box-shadow:
-                0.5px 0.5px 0 0 var(--yellow-400),
-                1px 1px 0 0 var(--yellow-400),
-                1.5px 1.5px 0 0 var(--yellow-400),
-                2px 2px 0 0 var(--yellow-400),
-                2.5px 2.5px 0 0 var(--yellow-400),
-                3px 3px 0 0 var(--yellow-400),
+                0.5px 0.5px 0 0 var(--primary-accent),
+                1px 1px 0 0 var(--primary-accent),
+                1.5px 1.5px 0 0 var(--primary-accent),
+                2px 2px 0 0 var(--primary-accent),
+                2.5px 2.5px 0 0 var(--primary-accent),
+                3px 3px 0 0 var(--primary-accent),
                 0 0 0 2px var(--stone-800),
                 0.5px 0.5px 0 2px var(--stone-800),
                 1px 1px 0 2px var(--stone-800),
@@ -401,51 +555,68 @@
                 4px 4px 0 4px var(--stone-50);
         }
 
-        .button:hover>div {
+        /* COLOR SHIFT HOVER EFFECT */
+        .button:hover > div {
             transform: translate(0, 0);
             box-shadow:
-                0 0 0 0 var(--yellow-400),
-                0 0 0 0 var(--yellow-400),
-                0 0 0 0 var(--yellow-400),
-                0 0 0 0 var(--yellow-400),
-                0 0 0 0 var(--yellow-400),
-                0 0 0 0 var(--yellow-400),
+                0.5px 0.5px 0 0 var(--primary-accent),
+                1px 1px 0 0 var(--primary-accent),
+                1.5px 1.5px 0 0 var(--primary-accent),
+                2px 2px 0 0 var(--primary-accent),
+                2.5px 2.5px 0 0 var(--primary-accent),
+                3px 3px 0 0 var(--primary-accent),
                 0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
-                0 0 0 2px var(--stone-800),
+                0.5px 0.5px 0 2px var(--stone-800),
+                1px 1px 0 2px var(--stone-800),
+                1.5px 1.5px 0 2px var(--stone-800),
+                2px 2px 0 2px var(--stone-800),
+                2.5px 2.5px 0 2px var(--stone-800),
+                3px 3px 0 2px var(--stone-800),
+                3.5px 3.5px 0 2px var(--stone-800),
+                4px 4px 0 2px var(--stone-800),
                 0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50),
-                0 0 0 4px var(--stone-50);
+                0.5px 0.5px 0 4px var(--stone-50),
+                1px 1px 0 4px var(--stone-50),
+                1.5px 1.5px 0 4px var(--stone-50),
+                2px 2px 0 4px var(--stone-50),
+                2.5px 2.5px 0 4px var(--stone-50),
+                3px 3px 0 4px var(--stone-50),
+                3.5px 3.5px 0 4px var(--stone-50),
+                4px 4px 0 4px var(--stone-50);
         }
 
-        .button>div>div {
+        .button:hover > div > div {
+            animation: color-shift 0.6s ease-out forwards;
+        }
+
+        @keyframes color-shift {
+            0% { 
+                background-color: var(--stone-800);
+            }
+            100% { 
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #27ae60 100%);
+            }
+        }
+
+        .button > div > div {
             position: relative;
             pointer-events: none;
             border-radius: calc(1rem - 2px);
             background-color: var(--stone-800);
+            z-index: 3;
         }
 
-        .button>div>div::before {
+        .button > div > div::before {
             content: "";
             position: absolute;
             inset: 0;
             border-radius: 1rem;
             opacity: 0.1;
-            background-image: radial-gradient(rgb(255 255 255 / 80%) 20%,
-                    transparent 20%),
-                radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
+            background-image: radial-gradient(
+                rgb(255 255 255 / 80%) 20%,
+                transparent 20%
+            ),
+            radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
             background-position: 0 0, 4px 4px;
             background-size: 8px 8px;
             mix-blend-mode: hard-light;
@@ -454,38 +625,29 @@
             transition: opacity 150ms ease;
         }
 
-        .button>div>div>div {
+        .button > div > div > div {
             position: relative;
             display: flex;
             align-items: center;
             padding: 0.75rem 1.25rem;
             gap: 0.25rem;
             filter: drop-shadow(0 -1px 0 var(--stone-800));
+            z-index: 4;
+            white-space: nowrap;
         }
 
-        .button>div>div>div:hover {
+        .button > div > div > div:hover {
             filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.1));
         }
 
-        .button>div>div>div:active {
+        .button > div > div > div:active {
             transform: translateY(2px);
-        }
-
-        @keyframes star-rotate {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
         }
 
         @keyframes dots {
             0% {
                 background-position: 0 0, 4px 4px;
             }
-
             100% {
                 background-position: 8px 0, 12px 4px;
             }
@@ -496,7 +658,6 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -511,11 +672,15 @@
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .hero p {
                 font-size: 1rem;
+            }
+
+            .hero-button-container {
+                height: 65px;
             }
 
             .about-content,
@@ -528,20 +693,42 @@
             }
 
             .social-links {
-                gap: 1rem;
+                gap: 1.5rem;
             }
-        }
 
-        @media (prefers-color-scheme: dark) {
+            .social-section {
+                margin: 0 10px;
+                padding: 60px 20px;
+            }
 
-            .button:active,
-            .button:focus-visible {
-                outline-color: var(--yellow-400);
+            .social-logo-container {
+                width: 70px;
+                height: 70px;
+            }
+
+            .social-logo-img {
+                width: 44px;
+                height: 44px;
+            }
+
+            .social-label {
+                font-size: 0.9rem;
+            }
+
+            .contact-item {
+                flex-direction: column;
+            }
+
+            .form-button-container {
+                height: 65px;
+            }
+
+            .about-text .tagline {
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
-
 <body>
     <!-- Navigation -->
     <nav>
@@ -550,79 +737,89 @@
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="#services">What We Do</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <h1>Welcome to Grosity</h1>
-        <p>Empowering businesses with innovative solutions that drive growth and success in the digital age</p>
-        <button class="button">
-            <div>
+        <h1>Fresh. Fast. Fair.</h1>
+        <p>Direct from farmers to your doorstep. No middlemen, no compromises, just pure freshness.</p>
+        <div class="hero-button-container">
+            <button class="button">
                 <div>
                     <div>
-                        <a href="#contact" style="color: inherit; text-decoration: none;">Get Started</a>
+                        <div><a href="#contact" style="color: inherit; text-decoration: none;">Order Now</a></div>
                     </div>
                 </div>
-            </div>
-        </button>
+            </button>
+        </div>
     </section>
 
     <!-- About Section -->
     <section id="about">
-        <h2>About Us</h2>
+        <h2>About Grosity</h2>
         <div class="about-content">
             <div class="about-text">
-                <p>At Grosity, we're passionate about transforming ideas into reality. Our team of dedicated
-                    professionals works tirelessly to deliver cutting-edge solutions that help businesses thrive in
-                    today's competitive landscape.</p>
-                <p>Founded with a vision to bridge the gap between technology and business needs, we've helped countless
-                    startups and established companies achieve their goals through innovative strategies and reliable
-                    execution.</p>
+                <p><strong>Grosity</strong> is a Patiala-based fresh produce startup that connects farmers, vendors, and customers through a simple, transparent, and sustainable supply chain.</p>
+                
+                <p>We buy vegetables directly from farmers and deliver them to vendors and homes across the city, ensuring every product is fresh, reasonably priced, and responsibly handled.</p>
+                
+                <p>Our goal is to make the everyday vegetable supply stress-free, with no more early morning mandi rush for vendors, and no unstable prices. Grosity empowers farmers with fair rates, supports vendors with consistent supply, and delivers freshness to customers right at their doorsteps.</p>
+
+                <div class="tagline">
+                    Behind every basket we deliver is a promise:<br>
+                    <strong>Fresh. Fast. Fair.</strong><br>
+                    That's Grosity, a movement to make local food fresher, faster, fairer and closer to you.
+                </div>
             </div>
             <div class="about-features">
                 <div class="feature-item">
-                    <h3>🎯 Our Mission</h3>
-                    <p>To empower businesses with innovative solutions that drive sustainable growth</p>
+                    <h3>🌾 For Farmers</h3>
+                    <p>Fair rates and consistent demand. No more price volatility. Direct connection to market opportunity.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>👁️ Our Vision</h3>
-                    <p>To be the most trusted partner for businesses navigating digital transformation</p>
+                    <h3>🏪 For Vendors</h3>
+                    <p>No more 4 AM mandi runs. Reliable, consistent supply delivered right to your shop. Fresh stock daily.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>💡 Our Values</h3>
-                    <p>Innovation, Integrity, Excellence, and Customer Success</p>
+                    <h3>👨‍👩‍👧‍👦 For Customers</h3>
+                    <p>Farm-fresh vegetables at fair prices. Delivered fast to your doorstep. Quality you can trust.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>♻️ Sustainable</h3>
+                    <p>Shorter supply chains mean less waste. Fresher produce. Better for farmers, vendors, customers, and the planet.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
+    <!-- What We Do Section -->
     <section id="services">
-        <h2>What We Offer</h2>
+        <h2>How Grosity Works</h2>
         <div class="services-grid">
             <div class="service-card">
-                <div class="service-icon">🚀</div>
-                <h3>Strategy & Consulting</h3>
-                <p>Expert guidance to help you navigate challenges and seize opportunities</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">💻</div>
-                <h3>Digital Solutions</h3>
-                <p>Custom technology solutions tailored to your unique business needs</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📈</div>
-                <h3>Growth Marketing</h3>
-                <p>Data-driven strategies to accelerate your business growth</p>
-            </div>
-            <div class="service-card">
                 <div class="service-icon">🤝</div>
-                <h3>Support & Maintenance</h3>
-                <p>Ongoing support to ensure your systems run smoothly</p>
+                <h3>Direct Sourcing</h3>
+                <p>We work directly with local farmers, ensuring fair prices and bypassing exploitative middlemen in the supply chain.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🚚</div>
+                <h3>Fast Delivery</h3>
+                <p>Farm to vendor to customer. Our streamlined logistics ensure produce reaches you at peak freshness within hours.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💰</div>
+                <h3>Transparent Pricing</h3>
+                <p>No hidden costs. No sudden price spikes. Fair rates for farmers, affordable prices for customers.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🌱</div>
+                <h3>Sustainable Impact</h3>
+                <p>Short supply chains reduce waste and carbon footprint. Supporting local agriculture and community economy.</p>
             </div>
         </div>
     </section>
@@ -651,7 +848,7 @@
                     <div class="contact-icon">📍</div>
                     <div>
                         <h4>Location</h4>
-                        <p>Your City, India</p>
+                        <p>Patiala, Punjab, India</p>
                     </div>
                 </div>
             </div>
@@ -660,38 +857,66 @@
                 <input type="email" placeholder="Your Email" required>
                 <input type="text" placeholder="Subject" required>
                 <textarea placeholder="Your Message" required></textarea>
-                <button type="submit" class="button">
-                    <div>
+                <div class="form-button-container">
+                    <button type="submit" class="button">
                         <div>
-                            <div>Send Message</div>
+                            <div>
+                                <div>Send Message</div>
+                            </div>
                         </div>
-                    </div>
-                </button>
+                    </button>
+                </div>
             </form>
         </div>
     </section>
 
-    <!-- Social Media Section -->
+    <!-- Social Media Section with PNG Logos -->
     <div class="social-section">
         <h2>Connect With Us</h2>
-        <p>Follow us on social media to stay updated with our latest news and insights</p>
+        <p>Follow us on social media to stay updated with our latest produce, stories, and community impact.</p>
         <div class="social-links">
-            <a href="http://www.linkedin.com/in/grosity-india-589972395" class="social-icon" aria-label="LinkedIn"
-                target="_blank">💼</a>
-            <a href="#" class="social-icon" aria-label="Twitter">🐦</a>
-            <a href="https://www.instagram.com/grosityindia/" class="social-icon" aria-label="Instagram"
-                target="_blank">📷</a>
-            <a href="#" class="social-icon" aria-label="Facebook">👥</a>
-            <a href="#" class="social-icon" aria-label="YouTube">▶️</a>
+            <!-- LinkedIn PNG -->
+            <a href="http://www.linkedin.com/in/grosity-india" class="social-link-btn" target="_blank">
+                <div class="social-logo-container">
+                    <img src="linkedin.png" alt="LinkedIn" class="social-logo-img">
+                </div>
+                <span class="social-label">LinkedIn</span>
+            </a>
+
+            <!-- Instagram PNG -->
+            <a href="https://www.instagram.com/grosityindia/" class="social-link-btn" target="_blank">
+                <div class="social-logo-container">
+                    <img src="instagramold.png" alt="Instagram" class="social-logo-img">
+                </div>
+                <span class="social-label">Instagram</span>
+            </a>
         </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Grosity. All rights reserved. | Built with passion for innovation</p>
+        <p>&copy; 2025 Grosity. All rights reserved. | Fresh produce directly from farmers to you.</p>
     </footer>
 
     <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            html.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark-mode');
+            const theme = html.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        });
+
         // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -716,5 +941,4 @@
         }
     </script>
 </body>
-
 </html>
