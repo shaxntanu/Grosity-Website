@@ -250,6 +250,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            perspective: 1000px;
         }
 
         #particles-js {
@@ -277,23 +278,33 @@
         .hero-content {
             position: relative;
             z-index: 2;
+            transform: translateY(var(--scroll-y, 0px));
+            pointer-events: auto;
+        }
+
+        .hero-text-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transform: translateY(inherit);
         }
 
         .hero h1 {
             font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1rem;
             animation: fadeInUp 1s ease;
             font-weight: 700;
             letter-spacing: -1.5px;
             font-family: 'Playfair Display', serif;
             line-height: 1.2;
             color: #000000;
-            transform: translateY(var(--parallax, 0px));
+            will-change: transform;
+            margin: 0;
         }
 
         .hero p {
             font-size: clamp(1rem, 2vw, 1.25rem);
-            margin-bottom: 2rem;
             max-width: 600px;
             animation: fadeInUp 1s ease 0.2s;
             animation-fill-mode: both;
@@ -302,7 +313,8 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             letter-spacing: 0.3px;
             padding: 0 10px;
-            transform: translateY(calc(var(--parallax, 0px) * 0.5));
+            will-change: transform;
+            margin: 0;
         }
 
         .hero-button-container {
@@ -311,7 +323,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: translateY(calc(var(--parallax, 0px) * 0.8));
+            will-change: transform;
         }
 
         section {
@@ -928,6 +940,11 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        html.dark-mode .input-container .input,
+        html.dark-mode .input-container textarea {
+            color: #FFD700;
+        }
+
         .input-container textarea {
             min-height: 150px;
             resize: vertical;
@@ -936,7 +953,6 @@
         .input-container .input:focus,
         .input-container textarea:focus {
             box-shadow: none;
-            transition: all 0.5s;
         }
 
         .input-container .label {
@@ -952,6 +968,10 @@
             pointer-events: none;
             font-size: clamp(16px, 2.5vw, 18px);
             opacity: 0.5;
+        }
+
+        html.dark-mode .input-container .label {
+            color: #FFD700;
         }
 
         .input-container .topline {
@@ -997,6 +1017,14 @@
             color: #000000;
         }
 
+        html.dark-mode .input-container .input:focus~.label,
+        html.dark-mode .input-container textarea:focus~.label,
+        html.dark-mode .input-container .input:valid~.label,
+        html.dark-mode .input-container textarea:valid~.label {
+            color: #FFD700;
+            background: var(--bg-primary);
+        }
+
         .form-button-container {
             margin-top: 1.5rem;
             height: 60px;
@@ -1006,11 +1034,23 @@
             z-index: 12;
         }
 
+        @keyframes buttonSlideInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .button {
             height: 50px;
             width: 200px;
             position: relative;
-            background-color: transparent;
+            background-color: #FFD700;
             cursor: pointer;
             border: 2px solid #000000;
             overflow: hidden;
@@ -1024,6 +1064,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(10px);
+            animation: buttonSlideInUp 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         .btn-txt {
@@ -1048,18 +1090,19 @@
         }
 
         .button:hover {
-            box-shadow: 1px 1px 200px rgba(34, 197, 94, 0.6);
+            box-shadow: 1px 1px 200px rgba(34, 197, 94, 0.6) !important;
             color: #ffffff;
             border: 2px solid #22C55E;
+            background-color: #22C55E;
+        }
+
+        .button:hover .btn-txt {
+            color: #ffffff;
         }
 
         .button.type1:hover::after {
             visibility: visible;
             transform: scale(100) translateX(2px);
-        }
-
-        .button:hover .btn-txt {
-            color: #ffffff;
         }
 
         .social-section {
@@ -1372,13 +1415,15 @@
     <section id="home" class="hero">
         <div id="particles-js"></div>
         <div class="hero-content">
-            <h1>Fresh. Fast. Fair.</h1>
-            <p>Direct from farmers to your doorstep. No middlemen, no compromises, just pure freshness.</p>
-            <div class="hero-button-container">
-                <button class="button type1">
-                    <span class="btn-txt"><a href="#order-section" style="color: inherit; text-decoration: none;">Order
-                            Now</a></span>
-                </button>
+            <div class="hero-text-group">
+                <h1>Fresh. Fast. Fair.</h1>
+                <p>Direct from farmers to your doorstep. No middlemen, no compromises, just pure freshness.</p>
+                <div class="hero-button-container">
+                    <button class="button type1">
+                        <span class="btn-txt"><a href="#order-section"
+                                style="color: inherit; text-decoration: none;">Order Now</a></span>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -1389,12 +1434,10 @@
             <div class="card">
                 <div class="card-pattern-grid"></div>
                 <div class="card-overlay-dots"></div>
-                <div class="bold-pattern">
-                    <svg viewBox="0 0 100 100">
+                <div class="bold-pattern"><svg viewBox="0 0 100 100">
                         <path stroke-dasharray="15 10" stroke-width="10" stroke="#000" fill="none"
                             d="M0,0 L100,0 L100,100 L0,100 Z"></path>
-                    </svg>
-                </div>
+                    </svg></div>
                 <div class="card-title-area">
                     <span>Fresh Vegetables</span>
                     <span class="card-tag">Popular</span>
@@ -1404,44 +1447,32 @@
                         local farmers to ensure maximum freshness and quality.</div>
                     <div class="feature-grid">
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20,4C21.1,4 22,4.9 22,6V18C22,19.1 21.1,20 20,20H4C2.9,20 2,19.1 2,18V6C2,4.9 2.9,4 4,4H20M4,6V18H20V6H4M6,9H18V11H6V9M6,13H16V15H6V13Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Organic</span>
+                                </svg></div><span class="feature-text">Organic</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M12,17.56L16.07,16.43L16.62,10.33H9.38L9.2,8.3H16.8L17,6.31H7L7.56,12.32H14.45L14.22,14.9L12,15.5L9.78,14.9L9.64,13.24H7.64L7.93,16.43L12,17.56M4.07,3H19.93L18.5,19.2L12,21L5.5,19.2L4.07,3Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Fresh</span>
+                                </svg></div><span class="feature-text">Fresh</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Quality</span>
+                                </svg></div><span class="feature-text">Quality</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M9.19,6.35C8.41,7.13 7.75,8.05 7.25,9H5V11H7.12C7.05,11.32 7,11.66 7,12C7,12.34 7.05,12.68 7.12,13H5V15H7.25C7.75,15.95 8.41,16.87 9.19,17.65L7.77,19.07L9.88,21.18L11.3,19.77C11.85,20.03 12.41,20.2 13,20.31V23H15V20.31C15.59,20.2 16.15,20.03 16.7,19.77L18.12,21.18L20.23,19.07L18.81,17.65C19.59,16.87 20.25,15.95 20.75,15H23V13H20.88C20.95,12.68 21,12.34 21,12C21,11.66 20.95,11.32 20.88,11H23V9H20.75C20.25,8.05 19.59,7.13 18.81,6.35L20.23,4.93L18.12,2.82L16.7,4.23C16.15,3.97 15.59,3.8 15,3.69V1H13V3.69C12.41,3.8 11.85,3.97 11.3,4.23L9.88,2.82L7.77,4.93L9.19,6.35M13,17A5,5 0 0,1 8,12A5,5 0 0,1 13,7A5,5 0 0,1 18,12A5,5 0 0,1 13,17Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Best Price</span>
+                                </svg></div><span class="feature-text">Best Price</span>
                         </div>
                     </div>
                     <div class="card-actions">
@@ -1450,8 +1481,7 @@
                         <button class="card-button">Order Now</button>
                     </div>
                 </div>
-                <div class="dots-pattern">
-                    <svg viewBox="0 0 80 40">
+                <div class="dots-pattern"><svg viewBox="0 0 80 40">
                         <circle fill="#000" r="3" cy="10" cx="10"></circle>
                         <circle fill="#000" r="3" cy="10" cx="30"></circle>
                         <circle fill="#000" r="3" cy="10" cx="50"></circle>
@@ -1463,8 +1493,7 @@
                         <circle fill="#000" r="3" cy="30" cx="30"></circle>
                         <circle fill="#000" r="3" cy="30" cx="50"></circle>
                         <circle fill="#000" r="3" cy="30" cx="70"></circle>
-                    </svg>
-                </div>
+                    </svg></div>
                 <div class="accent-shape"></div>
                 <div class="corner-slice"></div>
                 <div class="stamp"><span class="stamp-text">Fresh</span></div>
@@ -1473,12 +1502,10 @@
             <div class="card">
                 <div class="card-pattern-grid"></div>
                 <div class="card-overlay-dots"></div>
-                <div class="bold-pattern">
-                    <svg viewBox="0 0 100 100">
+                <div class="bold-pattern"><svg viewBox="0 0 100 100">
                         <path stroke-dasharray="15 10" stroke-width="10" stroke="#000" fill="none"
                             d="M0,0 L100,0 L100,100 L0,100 Z"></path>
-                    </svg>
-                </div>
+                    </svg></div>
                 <div class="card-title-area">
                     <span>Organic Fruits</span>
                     <span class="card-tag">Premium</span>
@@ -1488,44 +1515,32 @@
                         chemicals - just pure, natural goodness.</div>
                     <div class="feature-grid">
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20,4C21.1,4 22,4.9 22,6V18C22,19.1 21.1,20 20,20H4C2.9,20 2,19.1 2,18V6C2,4.9 2.9,4 4,4H20M4,6V18H20V6H4M6,9H18V11H6V9M6,13H16V15H6V13Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Natural</span>
+                                </svg></div><span class="feature-text">Natural</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M12,17.56L16.07,16.43L16.62,10.33H9.38L9.2,8.3H16.8L17,6.31H7L7.56,12.32H14.45L14.22,14.9L12,15.5L9.78,14.9L9.64,13.24H7.64L7.93,16.43L12,17.56M4.07,3H19.93L18.5,19.2L12,21L5.5,19.2L4.07,3Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Juicy</span>
+                                </svg></div><span class="feature-text">Juicy</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Organic</span>
+                                </svg></div><span class="feature-text">Organic</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M9.19,6.35C8.41,7.13 7.75,8.05 7.25,9H5V11H7.12C7.05,11.32 7,11.66 7,12C7,12.34 7.05,12.68 7.12,13H5V15H7.25C7.75,15.95 8.41,16.87 9.19,17.65L7.77,19.07L9.88,21.18L11.3,19.77C11.85,20.03 12.41,20.2 13,20.31V23H15V20.31C15.59,20.2 16.15,20.03 16.7,19.77L18.12,21.18L20.23,19.07L18.81,17.65C19.59,16.87 20.25,15.95 20.75,15H23V13H20.88C20.95,12.68 21,12.34 21,12C21,11.66 20.95,11.32 20.88,11H23V9H20.75C20.25,8.05 19.59,7.13 18.81,6.35L20.23,4.93L18.12,2.82L16.7,4.23C16.15,3.97 15.59,3.8 15,3.69V1H13V3.69C12.41,3.8 11.85,3.97 11.3,4.23L9.88,2.82L7.77,4.93L9.19,6.35M13,17A5,5 0 0,1 8,12A5,5 0 0,1 13,7A5,5 0 0,1 18,12A5,5 0 0,1 13,17Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Fair Price</span>
+                                </svg></div><span class="feature-text">Fair Price</span>
                         </div>
                     </div>
                     <div class="card-actions">
@@ -1534,8 +1549,7 @@
                         <button class="card-button">Order Now</button>
                     </div>
                 </div>
-                <div class="dots-pattern">
-                    <svg viewBox="0 0 80 40">
+                <div class="dots-pattern"><svg viewBox="0 0 80 40">
                         <circle fill="#000" r="3" cy="10" cx="10"></circle>
                         <circle fill="#000" r="3" cy="10" cx="30"></circle>
                         <circle fill="#000" r="3" cy="10" cx="50"></circle>
@@ -1547,8 +1561,7 @@
                         <circle fill="#000" r="3" cy="30" cx="30"></circle>
                         <circle fill="#000" r="3" cy="30" cx="50"></circle>
                         <circle fill="#000" r="3" cy="30" cx="70"></circle>
-                    </svg>
-                </div>
+                    </svg></div>
                 <div class="accent-shape"></div>
                 <div class="corner-slice"></div>
                 <div class="stamp"><span class="stamp-text">Premium</span></div>
@@ -1557,12 +1570,10 @@
             <div class="card">
                 <div class="card-pattern-grid"></div>
                 <div class="card-overlay-dots"></div>
-                <div class="bold-pattern">
-                    <svg viewBox="0 0 100 100">
+                <div class="bold-pattern"><svg viewBox="0 0 100 100">
                         <path stroke-dasharray="15 10" stroke-width="10" stroke="#000" fill="none"
                             d="M0,0 L100,0 L100,100 L0,100 Z"></path>
-                    </svg>
-                </div>
+                    </svg></div>
                 <div class="card-title-area">
                     <span>Combo Pack</span>
                     <span class="card-tag">Best Value</span>
@@ -1572,44 +1583,32 @@
                         combined for maximum nutrition and taste.</div>
                     <div class="feature-grid">
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M20,4C21.1,4 22,4.9 22,6V18C22,19.1 21.1,20 20,20H4C2.9,20 2,19.1 2,18V6C2,4.9 2.9,4 4,4H20M4,6V18H20V6H4M6,9H18V11H6V9M6,13H16V15H6V13Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Value</span>
+                                </svg></div><span class="feature-text">Value</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M12,17.56L16.07,16.43L16.62,10.33H9.38L9.2,8.3H16.8L17,6.31H7L7.56,12.32H14.45L14.22,14.9L12,15.5L9.78,14.9L9.64,13.24H7.64L7.93,16.43L12,17.56M4.07,3H19.93L18.5,19.2L12,21L5.5,19.2L4.07,3Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Combo</span>
+                                </svg></div><span class="feature-text">Combo</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Complete</span>
+                                </svg></div><span class="feature-text">Complete</span>
                         </div>
                         <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg viewBox="0 0 24 24">
+                            <div class="feature-icon"><svg viewBox="0 0 24 24">
                                     <path
                                         d="M9.19,6.35C8.41,7.13 7.75,8.05 7.25,9H5V11H7.12C7.05,11.32 7,11.66 7,12C7,12.34 7.05,12.68 7.12,13H5V15H7.25C7.75,15.95 8.41,16.87 9.19,17.65L7.77,19.07L9.88,21.18L11.3,19.77C11.85,20.03 12.41,20.2 13,20.31V23H15V20.31C15.59,20.2 16.15,20.03 16.7,19.77L18.12,21.18L20.23,19.07L18.81,17.65C19.59,16.87 20.25,15.95 20.75,15H23V13H20.88C20.95,12.68 21,12.34 21,12C21,11.66 20.95,11.32 20.88,11H23V9H20.75C20.25,8.05 19.59,7.13 18.81,6.35L20.23,4.93L18.12,2.82L16.7,4.23C16.15,3.97 15.59,3.8 15,3.69V1H13V3.69C12.41,3.8 11.85,3.97 11.3,4.23L9.88,2.82L7.77,4.93L9.19,6.35M13,17A5,5 0 0,1 8,12A5,5 0 0,1 13,7A5,5 0 0,1 18,12A5,5 0 0,1 13,17Z">
                                     </path>
-                                </svg>
-                            </div>
-                            <span class="feature-text">Save More</span>
+                                </svg></div><span class="feature-text">Save More</span>
                         </div>
                     </div>
                     <div class="card-actions">
@@ -1618,8 +1617,7 @@
                         <button class="card-button">Order Now</button>
                     </div>
                 </div>
-                <div class="dots-pattern">
-                    <svg viewBox="0 0 80 40">
+                <div class="dots-pattern"><svg viewBox="0 0 80 40">
                         <circle fill="#000" r="3" cy="10" cx="10"></circle>
                         <circle fill="#000" r="3" cy="10" cx="30"></circle>
                         <circle fill="#000" r="3" cy="10" cx="50"></circle>
@@ -1631,8 +1629,7 @@
                         <circle fill="#000" r="3" cy="30" cx="30"></circle>
                         <circle fill="#000" r="3" cy="30" cx="50"></circle>
                         <circle fill="#000" r="3" cy="30" cx="70"></circle>
-                    </svg>
-                </div>
+                    </svg></div>
                 <div class="accent-shape"></div>
                 <div class="corner-slice"></div>
                 <div class="stamp"><span class="stamp-text">Best Deal</span></div>
@@ -1651,11 +1648,9 @@
                 <p>Our goal is to make the everyday vegetable supply stress-free, with no more early morning mandi rush
                     for vendors, and no unstable prices. Grosity empowers farmers with fair rates, supports vendors with
                     consistent supply, and delivers freshness to customers right at their doorsteps.</p>
-                <div class="tagline">
-                    Behind every basket we deliver is a promise:<br>
-                    <strong>Fresh. Fast. Fair.</strong><br>
-                    That's Grosity, a movement to make local food fresher, faster, fairer and closer to you.
-                </div>
+                <div class="tagline">Behind every basket we deliver is a promise:<br><strong>Fresh. Fast.
+                        Fair.</strong><br>That's Grosity, a movement to make local food fresher, faster, fairer and
+                    closer to you.</div>
             </div>
             <div class="about-features">
                 <div class="feature-item">
@@ -1805,97 +1800,56 @@
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Initialize Particles.js with STRONG REPEL + DIRECTIONAL FLOW (IITP style)
         particlesJS("particles-js", {
             particles: {
-                number: {
-                    value: 280,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: "#000000"
-                },
-                shape: {
-                    type: "circle"
-                },
-                opacity: {
-                    value: 0.3,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 0.4,
-                        opacity_min: 0.1,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: 2.8,
-                    random: true,
-                    anim: {
-                        enable: true,
-                        speed: 25,
-                        size_min: 0.1,
-                        sync: false
-                    }
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 180,
-                    color: "#000000",
-                    opacity: 0.2,
-                    width: 0.9
-                },
-                move: {
-                    enable: true,
-                    speed: 0.6,
-                    direction: "top-right",
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false,
-                    attract: {
-                        enable: false
-                    }
-                }
+                number: { value: 280, density: { enable: true, value_area: 800 } },
+                color: { value: "#000000" },
+                shape: { type: "circle" },
+                opacity: { value: 0.3, random: true, anim: { enable: true, speed: 0.4, opacity_min: 0.1, sync: false } },
+                size: { value: 2.8, random: true, anim: { enable: true, speed: 25, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 180, color: "#000000", opacity: 0.2, width: 0.9 },
+                move: { enable: true, speed: 0.6, direction: "top-right", straight: false, out_mode: "out", bounce: false, attract: { enable: false } }
             },
             interactivity: {
                 detect_on: "canvas",
                 events: {
-                    onhover: {
-                        enable: true,
-                        mode: "repulse"
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: "repulse"
-                    },
+                    onhover: { enable: false, mode: "repulse" },
+                    onclick: { enable: false, mode: "repulse" },
                     resize: true
                 },
-                modes: {
-                    repulse: {
-                        distance: 140,
-                        duration: 0.8,
-                        speed: 3.2,
-                        easing: "ease-out-quad"
-                    }
-                }
+                modes: { repulse: { distance: 140, duration: 0.8, speed: 3.2, easing: "ease-out-quad" } }
             },
             retina_detect: true
         });
 
+        // Custom repel on button only
+        const button = document.querySelector('.button');
+        if (button) {
+            button.addEventListener('mouseenter', () => {
+                if (window.pJSDom && window.pJSDom[0]) {
+                    window.pJSDom[0].pJS.interactivity.mouse.pos_x = button.getBoundingClientRect().left + button.getBoundingClientRect().width / 2;
+                    window.pJSDom[0].pJS.interactivity.mouse.pos_y = button.getBoundingClientRect().top + button.getBoundingClientRect().height / 2;
+                    window.pJSDom[0].pJS.fn.vendors.interactivity.obj.setStyleMouseCursor();
+                    window.pJSDom[0].pJS.interactivity.status = 'mousemove';
+                }
+            });
+
+            button.addEventListener('mouseleave', () => {
+                if (window.pJSDom && window.pJSDom[0]) {
+                    window.pJSDom[0].pJS.interactivity.status = '';
+                }
+            });
+        }
+
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        window.addEventListener('load', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
         window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
             const hero = document.querySelector('.hero');
-            const scrollPosition = window.scrollY;
-            if (scrollPosition < hero.offsetHeight) {
-                document.documentElement.style.setProperty('--parallax', scrollPosition * 0.5 + 'px');
+            const heroHeight = hero.offsetHeight;
+
+            if (scrolled < heroHeight) {
+                document.documentElement.style.setProperty('--scroll-y', scrolled * 0.3 + 'px');
             }
         });
 
@@ -1919,9 +1873,7 @@
                 if (this.getAttribute('href') !== '#') {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
