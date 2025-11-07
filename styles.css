@@ -1069,12 +1069,12 @@ transform: scale(100) translateX(2px);
 }
 
 .social-section {
-text-align: center;
-background: #FFD700;
-color: #000000;
-padding: 80px 20px;
-border-radius: 20px;
-margin: 0 20px;
+    text-align: center;
+    background: #FFD700;
+    color: #000000;
+    padding: 80px 20px;
+    border-radius: 30px;  /* MATCHES LOWER ROUNDNESS */
+    margin: 20px;
 }
 
 .social-section h2 {
