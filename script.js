@@ -1,4 +1,4 @@
-// Particles JS configuration
+// Particles JS configuration - WITH FULL CURSOR INTERACTION
 particlesJS("particles-js", {
     particles: {
         number: { value: 280, density: { enable: true, value_area: 800 } },
@@ -12,8 +12,8 @@ particlesJS("particles-js", {
     interactivity: {
         detect_on: "canvas",
         events: {
-            onhover: { enable: false, mode: "repulse" },
-            onclick: { enable: false, mode: "repulse" },
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "repulse" },
             resize: true
         },
         modes: { repulse: { distance: 140, duration: 0.8, speed: 3.2, easing: "ease-out-quad" } }
@@ -21,24 +21,13 @@ particlesJS("particles-js", {
     retina_detect: true
 });
 
-// Custom repel on button only
-const button = document.querySelector('.button');
-if (button) {
-    button.addEventListener('mouseenter', () => {
-        if (window.pJSDom && window.pJSDom[0]) {
-            window.pJSDom[0].pJS.interactivity.mouse.pos_x = button.getBoundingClientRect().left + button.getBoundingClientRect().width / 2;
-            window.pJSDom[0].pJS.interactivity.mouse.pos_y = button.getBoundingClientRect().top + button.getBoundingClientRect().height / 2;
-            window.pJSDom[0].pJS.fn.vendors.interactivity.obj.setStyleMouseCursor();
-            window.pJSDom[0].pJS.interactivity.status = 'mousemove';
-        }
-    });
-
-    button.addEventListener('mouseleave', () => {
-        if (window.pJSDom && window.pJSDom[0]) {
-            window.pJSDom[0].pJS.interactivity.status = '';
-        }
-    });
-}
+// Document ready - ensure particles load
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if particles JS loaded successfully
+    if (window.pJSDom && window.pJSDom[0]) {
+        console.log('✅ Particles.js loaded successfully');
+    }
+});
 
 // Year update
 document.getElementById('year').textContent = new Date().getFullYear();
