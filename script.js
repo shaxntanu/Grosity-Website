@@ -7,35 +7,29 @@ window.addEventListener('load', () => {
 });
 
 // Particles JS configuration - WITH FULL CURSOR INTERACTION
-particlesJS("particles-js", {
-    particles: {
-        number: { value: 280, density: { enable: true, value_area: 800 } },
-        color: { value: "#000000" },
-        shape: { type: "circle" },
-        opacity: { value: 0.3, random: true, anim: { enable: true, speed: 0.4, opacity_min: 0.1, sync: false } },
-        size: { value: 2.8, random: true, anim: { enable: true, speed: 25, size_min: 0.1, sync: false } },
-        line_linked: { enable: true, distance: 180, color: "#000000", opacity: 0.2, width: 0.9 },
-        move: { enable: true, speed: 0.6, direction: "top-right", straight: false, out_mode: "out", bounce: false, attract: { enable: false } }
-    },
-    interactivity: {
-        detect_on: "canvas",
-        events: {
-            onhover: { enable: true, mode: "repulse" },
-            onclick: { enable: true, mode: "repulse" },
-            resize: true
+setTimeout(() => {
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 280, density: { enable: true, value_area: 800 } },
+            color: { value: "#000000" },
+            shape: { type: "circle" },
+            opacity: { value: 0.3, random: true, anim: { enable: true, speed: 0.4, opacity_min: 0.1, sync: false } },
+            size: { value: 2.8, random: true, anim: { enable: true, speed: 25, size_min: 0.1, sync: false } },
+            line_linked: { enable: true, distance: 180, color: "#000000", opacity: 0.2, width: 0.9 },
+            move: { enable: true, speed: 0.6, direction: "top-right", straight: false, out_mode: "out", bounce: false, attract: { enable: false } }
         },
-        modes: { repulse: { distance: 140, duration: 0.8, speed: 3.2, easing: "ease-out-quad" } }
-    },
-    retina_detect: true
-});
-
-// Document ready - ensure particles load
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if particles JS loaded successfully
-    if (window.pJSDom && window.pJSDom[0]) {
-        console.log('✅ Particles.js loaded successfully');
-    }
-});
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: true, mode: "repulse" },
+                onclick: { enable: true, mode: "repulse" },
+                resize: true
+            },
+            modes: { repulse: { distance: 140, duration: 0.8, speed: 3.2, easing: "ease-out-quad" } }
+        },
+        retina_detect: true
+    });
+}, 500);
 
 // Year update
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -52,20 +46,39 @@ window.addEventListener('scroll', () => {
     }
 }, { passive: true });
 
-// Dark mode toggle
+// FIXED Dark mode toggle - Mobile optimized
 const darkModeToggle = document.getElementById('darkModeToggle');
 const html = document.documentElement;
 const currentTheme = localStorage.getItem('theme') || 'light';
 
+// Set initial theme
 if (currentTheme === 'dark') {
     html.classList.add('dark-mode');
     darkModeToggle.checked = true;
+} else {
+    html.classList.remove('dark-mode');
+    darkModeToggle.checked = false;
 }
 
-darkModeToggle.addEventListener('change', () => {
-    html.classList.toggle('dark-mode');
-    const theme = html.classList.contains('dark-mode') ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
+// Change event for checkbox
+darkModeToggle.addEventListener('change', function() {
+    const isChecked = this.checked;
+    
+    if (isChecked) {
+        html.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        html.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+    }
+    
+    // Force repaint
+    html.style.backgroundColor = html.style.backgroundColor;
+});
+
+// Click event for mobile touch support
+darkModeToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
 });
 
 // Smooth scroll navigation
