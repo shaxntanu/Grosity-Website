@@ -34,6 +34,7 @@
             --nav-text: #ffffff;
             --card-bg: #ffffff;
             --card-shadow: rgba(0, 0, 0, 0.08);
+            --input-border: #667eea;
         }
 
         /* CSS Variables for dark mode colors - override light mode when dark-mode class is active */
@@ -48,6 +49,7 @@
             --nav-text: #e0e0e0;
             --card-bg: #252525;
             --card-shadow: rgba(0, 0, 0, 0.3);
+            --input-border: #667eea;
         }
 
         /* ========================================================================== */
@@ -62,8 +64,8 @@
             background-color: var(--bg-primary);
             transition: background-color 0.3s ease, color 0.3s ease;
             font-weight: 400;
-            /* Disable text selection by default for all elements */
             user-select: none;
+            overflow-x: hidden;
         }
 
         /* ========================================================================== */
@@ -102,6 +104,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         /* Brand logo styling in navbar */
@@ -119,6 +122,7 @@
             display: flex;
             gap: 2rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         /* Individual navigation links */
@@ -283,7 +287,7 @@
 
         /* Hero main heading with animation */
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             margin-bottom: 1rem;
             animation: fadeInUp 1s ease;
             font-weight: 700;
@@ -294,7 +298,7 @@
 
         /* Hero subheading with staggered animation */
         .hero p {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 2vw, 1.25rem);
             margin-bottom: 2rem;
             max-width: 600px;
             animation: fadeInUp 1s ease 0.2s;
@@ -303,6 +307,7 @@
             color: rgba(255, 255, 255, 0.9);
             font-family: 'Plus Jakarta Sans', sans-serif;
             letter-spacing: 0.3px;
+            padding: 0 10px;
         }
 
         /* Container for hero button */
@@ -326,7 +331,7 @@
 
         /* Section heading styling */
         section h2 {
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             text-align: center;
             margin-bottom: 3rem;
             color: var(--text-primary);
@@ -350,7 +355,7 @@
         /* Paragraph styling in about text */
         .about-text p {
             margin-bottom: 1.5rem;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
             line-height: 1.8;
             color: var(--text-secondary);
             font-weight: 400;
@@ -370,7 +375,7 @@
             padding: 2rem;
             border-radius: 12px;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2vw, 1.3rem);
             font-weight: 600;
             margin-top: 2rem;
             line-height: 1.8;
@@ -406,14 +411,14 @@
             margin-bottom: 0.8rem;
             font-weight: 700;
             font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             letter-spacing: -0.3px;
         }
 
         /* Feature item description */
         .feature-item p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
             font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
         }
@@ -452,7 +457,7 @@
 
         /* Service icon emoji/font styling */
         .service-icon {
-            font-size: 3rem;
+            font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 1rem;
         }
 
@@ -462,14 +467,14 @@
             margin-bottom: 1rem;
             font-weight: 700;
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
             letter-spacing: -0.3px;
         }
 
         /* Service card description */
         .service-card p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
             font-weight: 400;
             font-family: 'Plus Jakarta Sans', sans-serif;
             line-height: 1.6;
@@ -497,7 +502,7 @@
             font-weight: 700;
             color: var(--text-primary);
             font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
             letter-spacing: -0.3px;
         }
 
@@ -507,6 +512,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-primary);
             margin-bottom: 0.3rem;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
         }
 
         /* Individual contact item flex container */
@@ -518,7 +524,7 @@
 
         /* Contact icon styling */
         .contact-icon {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             color: #667eea;
             flex-shrink: 0;
         }
@@ -530,6 +536,8 @@
             transition: color 0.3s ease;
             font-weight: 500;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            word-break: break-word;
         }
 
         /* Contact link hover effect */
@@ -541,47 +549,119 @@
         .contact-item p {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-secondary);
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
         }
 
         /* ========================================================================== */
-        /* CONTACT FORM */
+        /* ANIMATED INPUT FIELDS - CONTACT FORM */
         /* ========================================================================== */
         /* Contact form container with flex layout */
         .contact-form {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
             position: relative;
             z-index: 10;
         }
 
-        /* Input and textarea field styling */
-        .contact-form input,
-        .contact-form textarea {
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        /* Input container with relative positioning for animated lines */
+        .input-container {
             position: relative;
-            z-index: 11;
+            width: 100%;
+        }
+
+        /* Base input and textarea styling with animated border */
+        .input-container .input,
+        .input-container textarea {
+            width: 100%;
+            padding: 12px 10px;
+            min-height: 40px;
+            border: 2px solid var(--input-border);
+            border-top: none;
+            border-bottom: none;
+            font-size: clamp(14px, 2vw, 16px);
             background: var(--bg-primary);
             color: var(--text-primary);
-        }
-
-        /* Form field focus state with accent color and glow */
-        .contact-form input:focus,
-        .contact-form textarea:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 7px 7px 0px 0px var(--input-border);
+            transition: all 0.5s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Textarea specific styling */
-        .contact-form textarea {
+        /* Textarea specific height */
+        .input-container textarea {
             min-height: 150px;
             resize: vertical;
+        }
+
+        /* Remove shadow on input focus */
+        .input-container .input:focus,
+        .input-container textarea:focus {
+            box-shadow: none;
+            transition: all 0.5s;
+        }
+
+        /* Floating label for input fields */
+        .input-container .label {
+            position: absolute;
+            top: 12px;
+            left: 10px;
+            color: var(--input-border);
+            transition: all 0.5s;
+            transform: scale(0);
+            z-index: -1;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+            pointer-events: none;
+            font-size: clamp(12px, 1.5vw, 14px);
+        }
+
+        /* Top line animation element */
+        .input-container .topline {
+            position: absolute;
+            content: "";
+            background-color: var(--input-border);
+            width: 0%;
+            height: 2px;
+            right: 0;
+            top: 0;
+            transition: all 0.5s;
+        }
+
+        /* Expand top line on input focus */
+        .input-container .input:focus~.topline,
+        .input-container textarea:focus~.topline {
+            width: 35%;
+            transition: all 0.5s;
+        }
+
+        /* Bottom line animation element */
+        .input-container .underline {
+            position: absolute;
+            content: "";
+            background-color: var(--input-border);
+            width: 0%;
+            height: 2px;
+            right: 0;
+            bottom: 0;
+            transition: all 0.5s;
+        }
+
+        /* Expand bottom line to full width on input focus */
+        .input-container .input:focus~.underline,
+        .input-container textarea:focus~.underline {
+            width: 100%;
+            transition: all 0.5s;
+        }
+
+        /* Show and position label above input when focused */
+        .input-container .input:focus~.label,
+        .input-container textarea:focus~.label {
+            top: -20px;
+            transform: scale(1);
+            transition: all 0.5s;
+            background: var(--bg-primary);
+            padding: 0 5px;
         }
 
         /* Container for form submit button */
@@ -611,14 +691,14 @@
         .social-section h2 {
             color: #fff;
             margin-bottom: 1rem;
-            font-size: 2.8rem;
+            font-size: clamp(2rem, 4vw, 2.8rem);
             font-family: 'Playfair Display', serif;
         }
 
         /* Social section paragraph */
         .social-section p {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
             margin-bottom: 3rem;
             max-width: 500px;
             margin-left: auto;
@@ -643,6 +723,7 @@
             box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.055);
             margin: 0 auto;
             border-radius: 12px;
+            flex-wrap: wrap;
         }
 
         /* Individual social icon container */
@@ -729,7 +810,7 @@
             text-align: center;
             padding: 2rem;
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
             transition: background-color 0.3s ease;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
@@ -751,7 +832,7 @@
             justify-content: center;
             font-weight: 600;
             line-height: 1;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
             border-radius: 1rem;
             outline: 2px solid transparent;
             outline-offset: 6px;
@@ -931,62 +1012,169 @@
         }
 
         /* ========================================================================== */
-        /* RESPONSIVE DESIGN - MOBILE BREAKPOINT */
+        /* RESPONSIVE DESIGN - ALL BREAKPOINTS */
         /* ========================================================================== */
-        /* Tablet and mobile optimized styles */
-        @media (max-width: 768px) {
 
-            /* Reduce nav gap on mobile */
+        /* ===== SMALL MOBILE (320px - 480px) ===== */
+        @media (max-width: 480px) {
+
+            /* Extra padding for very small screens */
+            section {
+                padding: 60px 15px;
+            }
+
+            /* Reduce nav padding */
+            nav .container {
+                padding: 0 15px;
+            }
+
+            /* Stack navigation on very small screens */
             nav ul {
                 gap: 1rem;
-                font-size: 0.9rem;
+                justify-content: center;
             }
 
-            /* Smaller hero heading on mobile */
-            .hero h1 {
-                font-size: 2.2rem;
+            nav .logo {
+                font-size: 1.5rem;
             }
 
-            /* Smaller hero paragraph on mobile */
-            .hero p {
-                font-size: 1rem;
+            /* Smaller hero section */
+            .hero {
+                padding: 80px 15px;
+                min-height: 60vh;
             }
 
-            /* Adjust hero button height on mobile */
-            .hero-button-container {
-                height: 65px;
+            /* Reduce social icon size */
+            .socialContainer {
+                width: 45px;
+                height: 45px;
             }
+
+            .socialSvg {
+                width: 15px;
+            }
+
+            /* Smaller input shadow on very small screens */
+            .input-container .input,
+            .input-container textarea {
+                box-shadow: 4px 4px 0px 0px var(--input-border);
+            }
+
+            /* Reduce card padding */
+            .card {
+                padding: 15px;
+                gap: 15px;
+            }
+        }
+
+        /* ===== MOBILE LANDSCAPE & LARGE MOBILE (481px - 767px) ===== */
+        @media (min-width: 481px) and (max-width: 767px) {
+            nav .logo {
+                font-size: 1.6rem;
+            }
+
+            section {
+                padding: 70px 20px;
+            }
+        }
+
+        /* ===== TABLET & BELOW (Up to 768px) ===== */
+        @media (max-width: 768px) {
 
             /* Convert grid to single column on mobile */
             .about-content,
             .contact-content {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
-            /* Smaller section heading on mobile */
-            section h2 {
-                font-size: 2rem;
+            /* Disable hover transform on mobile for feature items */
+            .feature-item:hover {
+                transform: translateX(0);
             }
 
-            /* Adjust social icon card gap on mobile */
-            .card {
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-
-            /* Stack contact items vertically on mobile */
+            /* Stack contact items vertically */
             .contact-item {
-                flex-direction: column;
+                flex-direction: row;
             }
 
-            /* Adjust form button height on mobile */
-            .form-button-container {
-                height: 65px;
+            /* Adjust social section margins */
+            .social-section {
+                margin: 0 10px;
+                padding: 60px 15px;
+                border-radius: 15px;
             }
 
-            /* Smaller tagline text on mobile */
-            .about-text .tagline {
-                font-size: 1.1rem;
+            /* Reduce service card padding */
+            .service-card {
+                padding: 20px;
+            }
+
+            /* Smaller hover effect on touch devices */
+            .socialContainer:hover {
+                transform: scale(1.2);
+            }
+        }
+
+        /* ===== TABLET PORTRAIT (768px - 1024px) ===== */
+        @media (min-width: 768px) and (max-width: 1024px) {
+
+            /* Optimize grid for tablet */
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Keep two-column layout on tablet for about/contact */
+            .about-content,
+            .contact-content {
+                gap: 2.5rem;
+            }
+
+            nav .container {
+                padding: 0 30px;
+            }
+
+            section {
+                padding: 70px 30px;
+            }
+        }
+
+        /* ===== TABLET LANDSCAPE & SMALL DESKTOP (1025px - 1280px) ===== */
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            section {
+                max-width: 1100px;
+            }
+
+            .hero {
+                padding: 100px 30px;
+            }
+        }
+
+        /* ===== LARGE DESKTOP (1281px and above) ===== */
+        @media (min-width: 1281px) {
+            section {
+                max-width: 1400px;
+                padding: 100px 40px;
+            }
+
+            .hero {
+                min-height: 75vh;
+            }
+
+            /* Larger typography on big screens */
+            .hero h1 {
+                font-size: 4rem;
+            }
+
+            .hero p {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* ===== ULTRA-WIDE SCREENS (1920px+) ===== */
+        @media (min-width: 1920px) {
+            section {
+                max-width: 1600px;
             }
         }
     </style>
@@ -1178,16 +1366,40 @@
                     </div>
                 </div>
             </div>
-            <!-- Right side: Contact form -->
+            <!-- Right side: Contact form with animated inputs -->
             <form class="contact-form" onsubmit="handleSubmit(event)">
-                <!-- Name input field -->
-                <input type="text" placeholder="Your Name" required>
-                <!-- Email input field -->
-                <input type="email" placeholder="Your Email" required>
-                <!-- Subject input field -->
-                <input type="text" placeholder="Subject" required>
-                <!-- Message textarea -->
-                <textarea placeholder="Your Message" required></textarea>
+                <!-- Name input with animated borders -->
+                <div class="input-container">
+                    <input class="input" name="name" type="text" required>
+                    <label class="label">Your Name</label>
+                    <div class="topline"></div>
+                    <div class="underline"></div>
+                </div>
+
+                <!-- Email input with animated borders -->
+                <div class="input-container">
+                    <input class="input" name="email" type="email" required>
+                    <label class="label">Your Email</label>
+                    <div class="topline"></div>
+                    <div class="underline"></div>
+                </div>
+
+                <!-- Subject input with animated borders -->
+                <div class="input-container">
+                    <input class="input" name="subject" type="text" required>
+                    <label class="label">Subject</label>
+                    <div class="topline"></div>
+                    <div class="underline"></div>
+                </div>
+
+                <!-- Message textarea with animated borders -->
+                <div class="input-container">
+                    <textarea class="input" name="message" required></textarea>
+                    <label class="label">Your Message</label>
+                    <div class="topline"></div>
+                    <div class="underline"></div>
+                </div>
+
                 <!-- Form submit button container -->
                 <div class="form-button-container">
                     <button type="submit" class="button">
