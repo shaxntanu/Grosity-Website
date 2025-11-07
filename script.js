@@ -1,3 +1,11 @@
+// Scroll to home on page load
+window.addEventListener('load', () => {
+    const homeSection = document.getElementById('home');
+    if (homeSection) {
+        homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});
+
 // Particles JS configuration - WITH FULL CURSOR INTERACTION
 particlesJS("particles-js", {
     particles: {
