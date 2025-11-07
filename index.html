@@ -568,6 +568,8 @@
         .input-container {
             position: relative;
             width: 100%;
+            margin-bottom: 30px;
+            /* Increased spacing between inputs */
         }
 
         /* Base input and textarea styling with animated border */
@@ -575,11 +577,13 @@
         .input-container textarea {
             width: 100%;
             padding: 12px 10px;
-            min-height: 40px;
+            min-height: 45px;
+            /* Slightly increased height */
             border: 2px solid var(--input-border);
             border-top: none;
             border-bottom: none;
-            font-size: clamp(14px, 2vw, 16px);
+            font-size: clamp(16px, 2.5vw, 18px);
+            /* Increased font size */
             background: var(--bg-primary);
             color: var(--text-primary);
             outline: none;
@@ -601,19 +605,22 @@
             transition: all 0.5s;
         }
 
-        /* Floating label for input fields */
+        /* Placeholder-style label inside input fields */
         .input-container .label {
             position: absolute;
             top: 12px;
             left: 10px;
             color: var(--input-border);
-            transition: all 0.5s;
-            transform: scale(0);
-            z-index: -1;
+            transition: all 0.3s ease;
+            transform: scale(1);
+            z-index: 1;
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 500;
             pointer-events: none;
-            font-size: clamp(12px, 1.5vw, 14px);
+            font-size: clamp(16px, 2.5vw, 18px);
+            /* Increased font size */
+            opacity: 0.5;
+            /* Translucent by default */
         }
 
         /* Top line animation element */
@@ -654,14 +661,21 @@
             transition: all 0.5s;
         }
 
-        /* Show and position label above input when focused */
+        /* Make label opaque and move above input when focused or filled */
         .input-container .input:focus~.label,
-        .input-container textarea:focus~.label {
-            top: -20px;
-            transform: scale(1);
-            transition: all 0.5s;
+        .input-container textarea:focus~.label,
+        .input-container .input:valid~.label,
+        .input-container textarea:valid~.label {
+            top: -22px;
+            /* Adjusted for larger text */
+            transform: scale(0.85);
+            /* Slightly smaller scale */
+            transition: all 0.3s ease;
             background: var(--bg-primary);
             padding: 0 5px;
+            opacity: 1;
+            /* Full opacity when active */
+            color: var(--input-border);
         }
 
         /* Container for form submit button */
