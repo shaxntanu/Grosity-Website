@@ -1,3 +1,74 @@
+/* HERO TEXT - ALWAYS BLACK */
+.hero h1 {
+    color: #000000 !important;
+}
+
+.hero p {
+    color: #000000 !important;
+}
+
+/* LIGHT MODE TEXT - ALWAYS BLACK */
+body {
+    color: #000000;
+}
+
+html:not(.dark-mode) body {
+    color: #000000 !important;
+}
+
+html:not(.dark-mode) section h2 {
+    color: #000000 !important;
+}
+
+html:not(.dark-mode) .about-text p {
+    color: #333333 !important;
+}
+
+html:not(.dark-mode) .service-card h3 {
+    color: #000000 !important;
+}
+
+html:not(.dark-mode) .service-card p {
+    color: #333333 !important;
+}
+
+html:not(.dark-mode) .contact-info h3 {
+    color: #000000 !important;
+}
+
+html:not(.dark-mode) .contact-info h4 {
+    color: #000000 !important;
+}
+
+/* DARK MODE TEXT - WHITE */
+html.dark-mode body {
+    color: #ffffff !important;
+}
+
+html.dark-mode section h2 {
+    color: #ffffff !important;
+}
+
+html.dark-mode .about-text p {
+    color: #e0e0e0 !important;
+}
+
+html.dark-mode .service-card h3 {
+    color: #ffffff !important;
+}
+
+html.dark-mode .service-card p {
+    color: #b0b0b0 !important;
+}
+
+html.dark-mode .contact-info h3 {
+    color: #ffffff !important;
+}
+
+html.dark-mode .contact-info h4 {
+    color: #ffffff !important;
+}
+
 * {
     margin: 0;
     padding: 0;
