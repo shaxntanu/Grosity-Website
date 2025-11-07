@@ -7,55 +7,53 @@
     <title>Grosity - Fresh Produce, Direct from Farmers</title>
     <!-- Import Google Fonts for typography -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@800;900&display=swap"
         rel="stylesheet">
     <style>
         /* ========================================================================== */
         /* GLOBAL RESET & VARIABLES */
         /* ========================================================================== */
-        /* Reset all margin, padding, and set box-sizing for all elements */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* CSS Variables for light mode colors and styles */
+        /* CSS Variables for light mode - Yellow, Green, Black palette */
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --text-primary: #333333;
-            --text-secondary: #555555;
+            --bg-secondary: #f9fdf5;
+            --text-primary: #000000;
+            --text-secondary: #333333;
             --text-muted: #666666;
             --border-color: #dddddd;
-            --accent-primary: #667eea;
-            --accent-secondary: #764ba2;
-            --nav-bg: #2c3e50;
+            --accent-primary: #FFD700;
+            --accent-secondary: #22C55E;
+            --nav-bg: #000000;
             --nav-text: #ffffff;
             --card-bg: #ffffff;
             --card-shadow: rgba(0, 0, 0, 0.08);
-            --input-border: #667eea;
+            --input-border: #FFD700;
         }
 
-        /* CSS Variables for dark mode colors - override light mode when dark-mode class is active */
+        /* CSS Variables for dark mode */
         html.dark-mode {
             --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --text-muted: #909090;
+            --bg-secondary: #242424;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #b0b0b0;
             --border-color: #444444;
-            --nav-bg: #0f0f0f;
-            --nav-text: #e0e0e0;
-            --card-bg: #252525;
+            --nav-bg: #0a0a0a;
+            --nav-text: #ffffff;
+            --card-bg: #2d2d2d;
             --card-shadow: rgba(0, 0, 0, 0.3);
-            --input-border: #667eea;
+            --input-border: #FFD700;
         }
 
         /* ========================================================================== */
         /* BODY & GENERAL STYLES */
         /* ========================================================================== */
-        /* Main body styling with smooth transitions for dark mode */
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
@@ -71,20 +69,17 @@
         /* ========================================================================== */
         /* SELECTABLE CONTENT */
         /* ========================================================================== */
-        /* Allow text selection only for contact information and form inputs */
         .contact-item a,
         .contact-item p,
         .contact-info h4,
         .contact-form input,
-        .contact-form textarea,
-        footer {
+        .contact-form textarea {
             user-select: text;
         }
 
         /* ========================================================================== */
         /* NAVIGATION BAR */
         /* ========================================================================== */
-        /* Sticky navigation bar that stays at top while scrolling */
         nav {
             background: var(--nav-bg);
             color: var(--nav-text);
@@ -96,7 +91,6 @@
             transition: background-color 0.3s ease;
         }
 
-        /* Container for nav content - max width and centered */
         nav .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -107,16 +101,15 @@
             flex-wrap: wrap;
         }
 
-        /* Brand logo styling in navbar */
         nav .logo {
             font-size: 1.8rem;
-            font-weight: 700;
-            color: #3498db;
-            letter-spacing: -0.5px;
-            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            color: #FFD700;
+            letter-spacing: -1px;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            text-transform: lowercase;
         }
 
-        /* Navigation links list */
         nav ul {
             list-style: none;
             display: flex;
@@ -125,7 +118,6 @@
             flex-wrap: wrap;
         }
 
-        /* Individual navigation links */
         nav a {
             color: var(--nav-text);
             text-decoration: none;
@@ -135,15 +127,13 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Navigation link hover effect */
         nav a:hover {
-            color: #3498db;
+            color: #FFD700;
         }
 
         /* ========================================================================== */
         /* DARK MODE TOGGLE SWITCH */
         /* ========================================================================== */
-        /* Switch toggle container */
         .switch {
             font-size: 17px;
             position: relative;
@@ -152,14 +142,12 @@
             height: 2em;
         }
 
-        /* Hide the actual checkbox input */
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
 
-        /* Background track of the switch */
         .slider {
             position: absolute;
             cursor: pointer;
@@ -173,12 +161,10 @@
             overflow: hidden;
         }
 
-        /* Change slider color when dark mode is active */
         html.dark-mode .slider {
-            background-color: #667eea;
+            background-color: #22C55E;
         }
 
-        /* Animated circle inside the slider */
         .circle {
             position: absolute;
             content: "";
@@ -187,29 +173,25 @@
             border-radius: 20px;
             left: 0.3em;
             bottom: 0.3em;
-            background-color: #fff000;
+            background-color: #FFD700;
             transform: rotate(360deg) translateX(0);
             transition: 0.4s;
         }
 
-        /* Move circle to right when checkbox is checked (dark mode on) */
         .switch input:checked+.slider .circle {
             transform: rotate(0deg) translateX(1.5em) !important;
         }
 
-        /* Adjust shine animation when checked */
         .switch input:checked+.slider .circle .shine {
             transform: translate(0%, 0%) !important;
         }
 
-        /* Show moon icon when dark mode is enabled */
         .switch input:checked+.slider .circle .moon {
             left: -10%;
             opacity: 1;
             transform: translateY(-60%);
         }
 
-        /* Moon icon styling */
         .moon {
             position: absolute;
             left: -100%;
@@ -223,7 +205,6 @@
             transition: all 0.4s;
         }
 
-        /* Shine particles around the sun icon */
         .shine {
             display: block;
             position: absolute;
@@ -231,12 +212,11 @@
             left: 50%;
             width: 0.25rem;
             height: 0.25rem;
-            background-color: #fff000;
+            background-color: #FFD700;
             border-radius: 1rem;
             transition: all 0.4s;
         }
 
-        /* Individual shine particle positions */
         .shine-1 {
             transform: translate(-50%, -375%);
         }
@@ -272,10 +252,9 @@
         /* ========================================================================== */
         /* HERO SECTION */
         /* ========================================================================== */
-        /* Main hero banner with gradient background */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
+            background: #FFD700;
+            color: #000000;
             text-align: center;
             padding: 120px 20px;
             min-height: 70vh;
@@ -285,7 +264,6 @@
             align-items: center;
         }
 
-        /* Hero main heading with animation */
         .hero h1 {
             font-size: clamp(2rem, 5vw, 3.5rem);
             margin-bottom: 1rem;
@@ -294,9 +272,9 @@
             letter-spacing: -1.5px;
             font-family: 'Playfair Display', serif;
             line-height: 1.2;
+            color: #000000;
         }
 
-        /* Hero subheading with staggered animation */
         .hero p {
             font-size: clamp(1rem, 2vw, 1.25rem);
             margin-bottom: 2rem;
@@ -304,13 +282,12 @@
             animation: fadeInUp 1s ease 0.2s;
             animation-fill-mode: both;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
+            color: #000000;
             font-family: 'Plus Jakarta Sans', sans-serif;
             letter-spacing: 0.3px;
             padding: 0 10px;
         }
 
-        /* Container for hero button */
         .hero-button-container {
             margin-top: 1rem;
             height: 60px;
@@ -322,14 +299,12 @@
         /* ========================================================================== */
         /* GENERAL SECTION STYLES */
         /* ========================================================================== */
-        /* Main content sections container and padding */
         section {
             max-width: 1200px;
             margin: 0 auto;
             padding: 80px 20px;
         }
 
-        /* Section heading styling */
         section h2 {
             font-size: clamp(1.8rem, 4vw, 2.5rem);
             text-align: center;
@@ -344,7 +319,6 @@
         /* ========================================================================== */
         /* ABOUT SECTION */
         /* ========================================================================== */
-        /* Two-column grid layout for about section */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -352,7 +326,6 @@
             align-items: start;
         }
 
-        /* Paragraph styling in about text */
         .about-text p {
             margin-bottom: 1.5rem;
             font-size: clamp(0.9rem, 1.5vw, 1rem);
@@ -362,16 +335,14 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Bold text highlighting in paragraphs */
         .about-text p strong {
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        /* Tagline box with gradient background */
         .about-text .tagline {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
+            background: #22C55E;
+            color: #000000;
             padding: 2rem;
             border-radius: 12px;
             text-align: center;
@@ -383,29 +354,25 @@
             letter-spacing: -0.5px;
         }
 
-        /* Container for feature items */
         .about-features {
             display: grid;
             gap: 1.5rem;
         }
 
-        /* Individual feature item card */
         .feature-item {
             background: var(--card-bg);
             padding: 24px;
             border-radius: 12px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #22C55E;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 2px 8px var(--card-shadow);
         }
 
-        /* Feature item hover effect - slide right */
         .feature-item:hover {
             transform: translateX(10px);
-            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.15);
         }
 
-        /* Feature item heading */
         .feature-item h3 {
             color: var(--text-primary);
             margin-bottom: 0.8rem;
@@ -415,7 +382,6 @@
             letter-spacing: -0.3px;
         }
 
-        /* Feature item description */
         .feature-item p {
             color: var(--text-secondary);
             font-size: clamp(0.85rem, 1.5vw, 0.95rem);
@@ -426,12 +392,10 @@
         /* ========================================================================== */
         /* SERVICES SECTION */
         /* ========================================================================== */
-        /* Services section background color */
         #services {
             background: var(--bg-secondary);
         }
 
-        /* Grid layout for service cards */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -439,7 +403,6 @@
             margin-top: 3rem;
         }
 
-        /* Individual service card styling */
         .service-card {
             background: var(--card-bg);
             padding: 30px;
@@ -449,19 +412,16 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Service card hover effect - lift up */
         .service-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 24px var(--card-shadow);
         }
 
-        /* Service icon emoji/font styling */
         .service-icon {
             font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 1rem;
         }
 
-        /* Service card heading */
         .service-card h3 {
             color: var(--text-primary);
             margin-bottom: 1rem;
@@ -471,7 +431,6 @@
             letter-spacing: -0.3px;
         }
 
-        /* Service card description */
         .service-card p {
             color: var(--text-secondary);
             font-size: clamp(0.85rem, 1.5vw, 0.95rem);
@@ -483,21 +442,18 @@
         /* ========================================================================== */
         /* CONTACT SECTION */
         /* ========================================================================== */
-        /* Two-column layout for contact info and form */
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
         }
 
-        /* Contact information column */
         .contact-info {
             display: flex;
             flex-direction: column;
             gap: 2rem;
         }
 
-        /* Contact section heading */
         .contact-info h3 {
             font-weight: 700;
             color: var(--text-primary);
@@ -506,7 +462,6 @@
             letter-spacing: -0.3px;
         }
 
-        /* Contact label (Email, Phone, Location) */
         .contact-info h4 {
             font-weight: 600;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -515,23 +470,20 @@
             font-size: clamp(0.9rem, 1.5vw, 1rem);
         }
 
-        /* Individual contact item flex container */
         .contact-item {
             display: flex;
             align-items: flex-start;
             gap: 1rem;
         }
 
-        /* Contact icon styling */
         .contact-icon {
             font-size: clamp(1.5rem, 3vw, 2rem);
-            color: #667eea;
+            color: #22C55E;
             flex-shrink: 0;
         }
 
-        /* Contact links (email, phone) */
         .contact-item a {
-            color: #667eea;
+            color: #22C55E;
             text-decoration: none;
             transition: color 0.3s ease;
             font-weight: 500;
@@ -540,12 +492,10 @@
             word-break: break-word;
         }
 
-        /* Contact link hover effect */
         .contact-item a:hover {
-            color: #764ba2;
+            color: #FFD700;
         }
 
-        /* Contact text (phone, location) */
         .contact-item p {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-secondary);
@@ -555,7 +505,6 @@
         /* ========================================================================== */
         /* ANIMATED INPUT FIELDS - CONTACT FORM */
         /* ========================================================================== */
-        /* Contact form container with flex layout */
         .contact-form {
             display: flex;
             flex-direction: column;
@@ -564,53 +513,45 @@
             z-index: 10;
         }
 
-        /* Input container with relative positioning for animated lines */
         .input-container {
             position: relative;
             width: 100%;
             margin-bottom: 30px;
-            /* Increased spacing between inputs */
         }
 
-        /* Base input and textarea styling with animated border */
         .input-container .input,
         .input-container textarea {
             width: 100%;
             padding: 12px 10px;
             min-height: 45px;
-            /* Slightly increased height */
             border: 2px solid var(--input-border);
             border-top: none;
             border-bottom: none;
             font-size: clamp(16px, 2.5vw, 18px);
-            /* Increased font size */
             background: var(--bg-primary);
-            color: var(--text-primary);
+            color: #000000;
             outline: none;
             box-shadow: 7px 7px 0px 0px var(--input-border);
             transition: all 0.5s;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* Textarea specific height */
         .input-container textarea {
             min-height: 150px;
             resize: vertical;
         }
 
-        /* Remove shadow on input focus */
         .input-container .input:focus,
         .input-container textarea:focus {
             box-shadow: none;
             transition: all 0.5s;
         }
 
-        /* Placeholder-style label inside input fields */
         .input-container .label {
             position: absolute;
             top: 12px;
             left: 10px;
-            color: var(--input-border);
+            color: #000000;
             transition: all 0.3s ease;
             transform: scale(1);
             z-index: 1;
@@ -618,12 +559,9 @@
             font-weight: 500;
             pointer-events: none;
             font-size: clamp(16px, 2.5vw, 18px);
-            /* Increased font size */
             opacity: 0.5;
-            /* Translucent by default */
         }
 
-        /* Top line animation element */
         .input-container .topline {
             position: absolute;
             content: "";
@@ -635,14 +573,12 @@
             transition: all 0.5s;
         }
 
-        /* Expand top line on input focus */
         .input-container .input:focus~.topline,
         .input-container textarea:focus~.topline {
             width: 35%;
             transition: all 0.5s;
         }
 
-        /* Bottom line animation element */
         .input-container .underline {
             position: absolute;
             content: "";
@@ -654,31 +590,25 @@
             transition: all 0.5s;
         }
 
-        /* Expand bottom line to full width on input focus */
         .input-container .input:focus~.underline,
         .input-container textarea:focus~.underline {
             width: 100%;
             transition: all 0.5s;
         }
 
-        /* Make label opaque and move above input when focused or filled */
         .input-container .input:focus~.label,
         .input-container textarea:focus~.label,
         .input-container .input:valid~.label,
         .input-container textarea:valid~.label {
             top: -22px;
-            /* Adjusted for larger text */
             transform: scale(0.85);
-            /* Slightly smaller scale */
             transition: all 0.3s ease;
             background: var(--bg-primary);
             padding: 0 5px;
             opacity: 1;
-            /* Full opacity when active */
-            color: var(--input-border);
+            color: #000000;
         }
 
-        /* Container for form submit button */
         .form-button-container {
             margin-top: 1.5rem;
             height: 56px;
@@ -691,27 +621,24 @@
         /* ========================================================================== */
         /* SOCIAL MEDIA SECTION */
         /* ========================================================================== */
-        /* Social media section with gradient background */
         .social-section {
             text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
+            background: #22C55E;
+            color: #000000;
             padding: 80px 20px;
             border-radius: 20px;
             margin: 0 20px;
         }
 
-        /* Social section heading */
         .social-section h2 {
-            color: #fff;
+            color: #000000;
             margin-bottom: 1rem;
             font-size: clamp(2rem, 4vw, 2.8rem);
             font-family: 'Playfair Display', serif;
         }
 
-        /* Social section paragraph */
         .social-section p {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(0, 0, 0, 0.9);
             font-size: clamp(0.95rem, 2vw, 1.1rem);
             margin-bottom: 3rem;
             max-width: 500px;
@@ -724,100 +651,79 @@
         /* ========================================================================== */
         /* SOCIAL ICONS CARD */
         /* ========================================================================== */
-        /* Card container for social icons */
         .card {
             width: fit-content;
             height: fit-content;
-            background-color: rgb(238, 238, 238);
+            background-color: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 25px 25px;
+            padding: 15px;
             gap: 20px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.055);
             margin: 0 auto;
-            border-radius: 12px;
+            border-radius: 20px;
             flex-wrap: wrap;
         }
 
-        /* Individual social icon container */
         .socialContainer {
-            width: 52px;
-            height: 52px;
-            background-color: rgb(44, 44, 44);
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            transition-duration: 0.3s;
-            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-radius: 20px;
             cursor: pointer;
             text-decoration: none;
             border: none;
         }
 
-        /* Instagram icon hover state - pink background with scale effect */
+        /* Instagram - Gradient background */
+        .containerOne {
+            background: linear-gradient(135deg, #833AB4 0%, #E1306C 50%, #FD1D1D 100%);
+        }
+
+        /* LinkedIn - Blue */
+        .containerTwo {
+            background-color: #0077b5;
+        }
+
+        /* WhatsApp - Green */
+        .containerThree {
+            background-color: #25D366;
+        }
+
         .containerOne:hover {
-            background-color: #d62976;
-            transition-duration: 0.3s;
-            transform: scale(1.5);
-            border-radius: 15px;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(131, 58, 180, 0.4);
         }
 
-        /* LinkedIn icon hover state - blue background with scale effect */
         .containerTwo:hover {
-            background-color: #0072b1;
-            transition-duration: 0.3s;
-            transform: scale(1.5);
-            border-radius: 15px;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 119, 181, 0.4);
         }
 
-        /* WhatsApp icon hover state - green background with scale effect */
         .containerThree:hover {
-            background-color: #25d366;
-            transition-duration: 0.3s;
-            transform: scale(1.5);
-            border-radius: 15px;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
         }
 
-        /* Icon active/press state - scale down effect */
         .socialContainer:active {
-            transform: scale(0.9);
-            transition-duration: 0.3s;
+            transform: scale(0.95);
         }
 
-        /* SVG icon sizing */
         .socialSvg {
-            width: 17px;
+            width: 28px;
+            height: 28px;
         }
 
-        /* SVG path color (white fill) */
         .socialSvg path {
             fill: rgb(255, 255, 255);
-        }
-
-        /* Animate SVG on hover with slide-in-top animation */
-        .socialContainer:hover .socialSvg {
-            animation: slide-in-top 0.3s both;
-        }
-
-        /* Slide-in-top animation keyframes */
-        @keyframes slide-in-top {
-            0% {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         /* ========================================================================== */
         /* FOOTER */
         /* ========================================================================== */
-        /* Footer styling with dark background */
         footer {
             background: var(--nav-bg);
             color: var(--nav-text);
@@ -827,16 +733,16 @@
             font-size: clamp(0.8rem, 1.5vw, 0.9rem);
             transition: background-color 0.3s ease;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
         }
 
         /* ========================================================================== */
         /* BUTTON STYLES */
         /* ========================================================================== */
-        /* Main button component with neumorphic layered design */
         .button {
             --stone-50: #fafaf9;
-            --stone-800: #292524;
-            --primary-accent: #667eea;
+            --stone-800: #000000;
+            --primary-accent: #FFD700;
 
             font-family: "Rubik", -apple-system, BlinkMacSystemFont, sans-serif;
             cursor: pointer;
@@ -850,24 +756,21 @@
             border-radius: 1rem;
             outline: 2px solid transparent;
             outline-offset: 6px;
-            color: var(--stone-50);
+            color: #000000;
             border: none;
             background: transparent;
             overflow: visible;
         }
 
-        /* Button active state outline */
         .button:active {
             outline-color: var(--primary-accent);
         }
 
-        /* Button focus state with dashed outline */
         .button:focus-visible {
             outline-color: var(--primary-accent);
             outline-style: dashed;
         }
 
-        /* First layer of button with offset shadow effect */
         .button>div {
             padding: 2px;
             border-radius: 1rem;
@@ -903,7 +806,6 @@
                 4px 4px 0 4px var(--stone-50);
         }
 
-        /* Button hover state - bring layer forward (press effect) */
         .button:hover>div {
             transform: translate(0, 0);
             box-shadow:
@@ -933,72 +835,66 @@
                 4px 4px 0 4px var(--stone-50);
         }
 
-        /* Trigger color-shift animation on button hover */
         .button:hover>div>div {
             animation: color-shift 0.6s ease-out forwards;
         }
 
-        /* Color-shift animation - gradient transition on hover */
         @keyframes color-shift {
             0% {
-                background-color: var(--stone-800);
+                background-color: #22C55E;
             }
 
             100% {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #27ae60 100%);
+                background-color: #000000;
             }
         }
 
-        /* Inner button layer with textured background */
         .button>div>div {
             position: relative;
             pointer-events: none;
             border-radius: calc(1rem - 2px);
-            background-color: var(--stone-800);
+            background-color: #22C55E;
             z-index: 3;
         }
 
-        /* Decorative dot pattern on button */
         .button>div>div::before {
             content: "";
             position: absolute;
             inset: 0;
             border-radius: 1rem;
             opacity: 0.1;
-            background-image: radial-gradient(rgb(255 255 255 / 80%) 20%,
-                    transparent 20%),
+            background-image: radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%),
                 radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
             background-position: 0 0, 4px 4px;
             background-size: 8px 8px;
             mix-blend-mode: hard-light;
-            box-shadow: inset 0 0 0 1px var(--stone-800);
+            box-shadow: inset 0 0 0 1px #22C55E;
             animation: dots 0.4s infinite linear;
             transition: opacity 150ms ease;
         }
 
-        /* Button text container with drop shadow */
         .button>div>div>div {
             position: relative;
             display: flex;
             align-items: center;
             padding: 0.75rem 1.25rem;
             gap: 0.25rem;
-            filter: drop-shadow(0 -1px 0 var(--stone-800));
+            filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.3));
             z-index: 4;
             white-space: nowrap;
+            color: #000000;
+            transition: color 0.3s ease;
         }
 
-        /* Button text hover effect */
-        .button>div>div>div:hover {
-            filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.1));
+        .button:hover>div>div>div {
+            color: #FFD700;
+            filter: drop-shadow(0 -1px 0 rgba(255, 215, 0, 0.3));
         }
 
-        /* Button text press effect */
         .button>div>div>div:active {
             transform: translateY(2px);
         }
 
-        /* Animated dots pattern on button */
         @keyframes dots {
             0% {
                 background-position: 0 0, 4px 4px;
@@ -1012,7 +908,6 @@
         /* ========================================================================== */
         /* PAGE ANIMATIONS */
         /* ========================================================================== */
-        /* Fade in and slide up animation for hero content */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1029,20 +924,15 @@
         /* RESPONSIVE DESIGN - ALL BREAKPOINTS */
         /* ========================================================================== */
 
-        /* ===== SMALL MOBILE (320px - 480px) ===== */
         @media (max-width: 480px) {
-
-            /* Extra padding for very small screens */
             section {
                 padding: 60px 15px;
             }
 
-            /* Reduce nav padding */
             nav .container {
                 padding: 0 15px;
             }
 
-            /* Stack navigation on very small screens */
             nav ul {
                 gap: 1rem;
                 justify-content: center;
@@ -1052,36 +942,32 @@
                 font-size: 1.5rem;
             }
 
-            /* Smaller hero section */
             .hero {
                 padding: 80px 15px;
                 min-height: 60vh;
             }
 
-            /* Reduce social icon size */
             .socialContainer {
-                width: 45px;
-                height: 45px;
+                width: 60px;
+                height: 60px;
             }
 
             .socialSvg {
-                width: 15px;
+                width: 22px;
+                height: 22px;
             }
 
-            /* Smaller input shadow on very small screens */
             .input-container .input,
             .input-container textarea {
                 box-shadow: 4px 4px 0px 0px var(--input-border);
             }
 
-            /* Reduce card padding */
             .card {
                 padding: 15px;
                 gap: 15px;
             }
         }
 
-        /* ===== MOBILE LANDSCAPE & LARGE MOBILE (481px - 767px) ===== */
         @media (min-width: 481px) and (max-width: 767px) {
             nav .logo {
                 font-size: 1.6rem;
@@ -1092,53 +978,38 @@
             }
         }
 
-        /* ===== TABLET & BELOW (Up to 768px) ===== */
         @media (max-width: 768px) {
 
-            /* Convert grid to single column on mobile */
             .about-content,
             .contact-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
 
-            /* Disable hover transform on mobile for feature items */
             .feature-item:hover {
                 transform: translateX(0);
             }
 
-            /* Stack contact items vertically */
             .contact-item {
                 flex-direction: row;
             }
 
-            /* Adjust social section margins */
             .social-section {
                 margin: 0 10px;
                 padding: 60px 15px;
                 border-radius: 15px;
             }
 
-            /* Reduce service card padding */
             .service-card {
                 padding: 20px;
             }
-
-            /* Smaller hover effect on touch devices */
-            .socialContainer:hover {
-                transform: scale(1.2);
-            }
         }
 
-        /* ===== TABLET PORTRAIT (768px - 1024px) ===== */
         @media (min-width: 768px) and (max-width: 1024px) {
-
-            /* Optimize grid for tablet */
             .services-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            /* Keep two-column layout on tablet for about/contact */
             .about-content,
             .contact-content {
                 gap: 2.5rem;
@@ -1153,7 +1024,6 @@
             }
         }
 
-        /* ===== TABLET LANDSCAPE & SMALL DESKTOP (1025px - 1280px) ===== */
         @media (min-width: 1025px) and (max-width: 1280px) {
             section {
                 max-width: 1100px;
@@ -1164,7 +1034,6 @@
             }
         }
 
-        /* ===== LARGE DESKTOP (1281px and above) ===== */
         @media (min-width: 1281px) {
             section {
                 max-width: 1400px;
@@ -1175,7 +1044,6 @@
                 min-height: 75vh;
             }
 
-            /* Larger typography on big screens */
             .hero h1 {
                 font-size: 4rem;
             }
@@ -1185,7 +1053,6 @@
             }
         }
 
-        /* ===== ULTRA-WIDE SCREENS (1920px+) ===== */
         @media (min-width: 1920px) {
             section {
                 max-width: 1600px;
@@ -1200,22 +1067,17 @@
     <!-- ========================================================================== -->
     <nav>
         <div class="container">
-            <!-- Logo/Brand name -->
-            <div class="logo">Grosity</div>
+            <div class="logo">grosity</div>
             <ul>
-                <!-- Navigation links for page sections -->
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#services">What We Do</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <!-- Dark mode toggle switch -->
                 <li>
                     <label class="switch">
                         <input type="checkbox" id="darkModeToggle" />
-                        <!-- Switch slider with sun/moon animation -->
                         <span class="slider">
                             <span class="circle">
-                                <!-- Shine particles around sun icon -->
                                 <span class="shine shine-1"></span>
                                 <span class="shine shine-2"></span>
                                 <span class="shine shine-3"></span>
@@ -1224,7 +1086,6 @@
                                 <span class="shine shine-6"></span>
                                 <span class="shine shine-7"></span>
                                 <span class="shine shine-8"></span>
-                                <!-- Moon icon that appears in dark mode -->
                                 <span class="moon"></span>
                             </span>
                         </span>
@@ -1238,16 +1099,12 @@
     <!-- HERO SECTION -->
     <!-- ========================================================================== -->
     <section id="home" class="hero">
-        <!-- Main heading -->
         <h1>Fresh. Fast. Fair.</h1>
-        <!-- Subheading -->
         <p>Direct from farmers to your doorstep. No middlemen, no compromises, just pure freshness.</p>
-        <!-- Call-to-action button container -->
         <div class="hero-button-container">
             <button class="button">
                 <div>
                     <div>
-                        <!-- Button link to contact section -->
                         <div><a href="#contact" style="color: inherit; text-decoration: none;">Order Now</a></div>
                     </div>
                 </div>
@@ -1261,45 +1118,35 @@
     <section id="about">
         <h2>About Grosity</h2>
         <div class="about-content">
-            <!-- Left side: About text and tagline -->
             <div class="about-text">
                 <p><strong>Grosity</strong> is a Patiala-based fresh produce startup that connects farmers, vendors, and
                     customers through a simple, transparent, and sustainable supply chain.</p>
-
                 <p>We buy vegetables directly from farmers and deliver them to vendors and homes across the city,
                     ensuring every product is fresh, reasonably priced, and responsibly handled.</p>
-
                 <p>Our goal is to make the everyday vegetable supply stress-free, with no more early morning mandi rush
                     for vendors, and no unstable prices. Grosity empowers farmers with fair rates, supports vendors with
                     consistent supply, and delivers freshness to customers right at their doorsteps.</p>
-
-                <!-- Highlighted tagline -->
                 <div class="tagline">
                     Behind every basket we deliver is a promise:<br>
                     <strong>Fresh. Fast. Fair.</strong><br>
                     That's Grosity, a movement to make local food fresher, faster, fairer and closer to you.
                 </div>
             </div>
-            <!-- Right side: Feature cards -->
             <div class="about-features">
-                <!-- For Farmers feature -->
                 <div class="feature-item">
                     <h3>🌾 For Farmers</h3>
                     <p>Fair rates and consistent demand. No more price volatility. Direct connection to market
                         opportunity.</p>
                 </div>
-                <!-- For Vendors feature -->
                 <div class="feature-item">
                     <h3>🏪 For Vendors</h3>
                     <p>No more 4 AM mandi runs. Reliable, consistent supply delivered right to your shop. Fresh stock
                         daily.</p>
                 </div>
-                <!-- For Customers feature -->
                 <div class="feature-item">
                     <h3>👨‍👩‍👧‍👦 For Customers</h3>
                     <p>Farm-fresh vegetables at fair prices. Delivered fast to your doorstep. Quality you can trust.</p>
                 </div>
-                <!-- Sustainability feature -->
                 <div class="feature-item">
                     <h3>♻️ Sustainable</h3>
                     <p>Shorter supply chains mean less waste. Fresher produce. Better for farmers, vendors, customers,
@@ -1314,29 +1161,24 @@
     <!-- ========================================================================== -->
     <section id="services">
         <h2>How Grosity Works</h2>
-        <!-- Grid of service cards -->
         <div class="services-grid">
-            <!-- Direct Sourcing service card -->
             <div class="service-card">
                 <div class="service-icon">🤝</div>
                 <h3>Direct Sourcing</h3>
                 <p>We work directly with local farmers, ensuring fair prices and bypassing exploitative middlemen in the
                     supply chain.</p>
             </div>
-            <!-- Fast Delivery service card -->
             <div class="service-card">
                 <div class="service-icon">🚚</div>
                 <h3>Fast Delivery</h3>
                 <p>Farm to vendor to customer. Our streamlined logistics ensure produce reaches you at peak freshness
                     within hours.</p>
             </div>
-            <!-- Transparent Pricing service card -->
             <div class="service-card">
                 <div class="service-icon">💰</div>
                 <h3>Transparent Pricing</h3>
                 <p>No hidden costs. No sudden price spikes. Fair rates for farmers, affordable prices for customers.</p>
             </div>
-            <!-- Sustainable Impact service card -->
             <div class="service-card">
                 <div class="service-icon">🌱</div>
                 <h3>Sustainable Impact</h3>
@@ -1352,10 +1194,8 @@
     <section id="contact">
         <h2>Get In Touch</h2>
         <div class="contact-content">
-            <!-- Left side: Contact information -->
             <div class="contact-info">
                 <h3>Contact Information</h3>
-                <!-- Email contact item -->
                 <div class="contact-item">
                     <div class="contact-icon">📧</div>
                     <div>
@@ -1363,7 +1203,6 @@
                         <a href="mailto:grosity.connect@gmail.com">grosity.connect@gmail.com</a>
                     </div>
                 </div>
-                <!-- Phone contact item -->
                 <div class="contact-item">
                     <div class="contact-icon">📱</div>
                     <div>
@@ -1371,7 +1210,6 @@
                         <p>+91 XXXXX XXXXX</p>
                     </div>
                 </div>
-                <!-- Location contact item -->
                 <div class="contact-item">
                     <div class="contact-icon">📍</div>
                     <div>
@@ -1380,41 +1218,31 @@
                     </div>
                 </div>
             </div>
-            <!-- Right side: Contact form with animated inputs -->
             <form class="contact-form" onsubmit="handleSubmit(event)">
-                <!-- Name input with animated borders -->
                 <div class="input-container">
                     <input class="input" name="name" type="text" required>
                     <label class="label">Your Name</label>
                     <div class="topline"></div>
                     <div class="underline"></div>
                 </div>
-
-                <!-- Email input with animated borders -->
                 <div class="input-container">
                     <input class="input" name="email" type="email" required>
                     <label class="label">Your Email</label>
                     <div class="topline"></div>
                     <div class="underline"></div>
                 </div>
-
-                <!-- Subject input with animated borders -->
                 <div class="input-container">
                     <input class="input" name="subject" type="text" required>
                     <label class="label">Subject</label>
                     <div class="topline"></div>
                     <div class="underline"></div>
                 </div>
-
-                <!-- Message textarea with animated borders -->
                 <div class="input-container">
                     <textarea class="input" name="message" required></textarea>
                     <label class="label">Your Message</label>
                     <div class="topline"></div>
                     <div class="underline"></div>
                 </div>
-
-                <!-- Form submit button container -->
                 <div class="form-button-container">
                     <button type="submit" class="button">
                         <div>
@@ -1434,10 +1262,7 @@
     <div class="social-section">
         <h2>Connect With Us</h2>
         <p>Follow us on social media to stay updated with our latest produce, stories, and community impact.</p>
-
-        <!-- Social icons card container -->
         <div class="card">
-            <!-- Instagram icon link -->
             <a href="https://www.instagram.com/grosityindia/" class="socialContainer containerOne" target="_blank">
                 <svg class="socialSvg instagramSvg" viewBox="0 0 16 16">
                     <path
@@ -1445,8 +1270,6 @@
                     </path>
                 </svg>
             </a>
-
-            <!-- LinkedIn icon link -->
             <a href="http://www.linkedin.com/in/grosity-india" class="socialContainer containerTwo" target="_blank">
                 <svg class="socialSvg linkdinSvg" viewBox="0 0 448 512">
                     <path
@@ -1454,8 +1277,6 @@
                     </path>
                 </svg>
             </a>
-
-            <!-- WhatsApp icon link -->
             <a href="https://wa.me/91XXXXXXXXXX" class="socialContainer containerThree" target="_blank">
                 <svg class="socialSvg whatsappSvg" viewBox="0 0 16 16">
                     <path
@@ -1470,7 +1291,6 @@
     <!-- FOOTER -->
     <!-- ========================================================================== -->
     <footer>
-        <!-- Copyright text with auto-updating year -->
         <p>&copy; <span id="year"></span> Grosity. All rights reserved.</p>
     </footer>
 
@@ -1478,54 +1298,36 @@
     <!-- JAVASCRIPT -->
     <!-- ========================================================================== -->
     <script>
-        // ===================================================================
-        // AUTO-UPDATE YEAR IN FOOTER
-        // ===================================================================
-        // Set current year in footer copyright text automatically
+        // Auto-update year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // ===================================================================
-        // SMOOTH SCROLL TO TOP ON PAGE LOAD
-        // ===================================================================
-        // Scroll to top when page finishes loading
+        // Smooth scroll to top on page load
         window.addEventListener('load', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // ===================================================================
-        // DARK MODE TOGGLE FUNCTIONALITY
-        // ===================================================================
-        // Get dark mode toggle checkbox and html element
+        // Dark mode toggle
         const darkModeToggle = document.getElementById('darkModeToggle');
         const html = document.documentElement;
-
-        // Check for saved theme preference in localStorage
         const currentTheme = localStorage.getItem('theme') || 'light';
 
-        // Apply saved theme on page load
         if (currentTheme === 'dark') {
             html.classList.add('dark-mode');
             darkModeToggle.checked = true;
         }
 
-        // Listen for toggle changes and save preference
         darkModeToggle.addEventListener('change', () => {
             html.classList.toggle('dark-mode');
             const theme = html.classList.contains('dark-mode') ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
         });
 
-        // ===================================================================
-        // SMOOTH SCROLL FOR NAVIGATION LINKS
-        // ===================================================================
-        // Add smooth scroll behavior to all anchor links
+        // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                // Only prevent default for actual anchor links (not empty #)
                 if (this.getAttribute('href') !== '#') {
                     e.preventDefault();
                     const target = document.querySelector(this.getAttribute('href'));
-                    // Scroll to target section smoothly
                     if (target) {
                         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
@@ -1533,15 +1335,10 @@
             });
         });
 
-        // ===================================================================
-        // CONTACT FORM SUBMISSION
-        // ===================================================================
-        // Handle contact form submission
+        // Contact form submission
         function handleSubmit(event) {
             event.preventDefault();
-            // Show success message
             alert('Thank you for your message! We will get back to you soon.');
-            // Clear form fields
             event.target.reset();
         }
     </script>
