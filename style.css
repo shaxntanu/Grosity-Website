@@ -1,4 +1,3 @@
-
 /* HERO TEXT - ALWAYS BLACK */
 .hero h1 {
     color: #000000 !important;
@@ -118,7 +117,11 @@ body {
     overflow-x: hidden;
 }
 
-.contact-item a, .contact-item p, .contact-info h4, .contact-form input, .contact-form textarea {
+.contact-item a,
+.contact-item p,
+.contact-info h4,
+.contact-form input,
+.contact-form textarea {
     user-select: text;
 }
 
@@ -265,14 +268,37 @@ html.dark-mode .slider {
     transition: all 0.4s;
 }
 
-.shine-1 { transform: translate(-50%, -375%); }
-.shine-2 { transform: translate(175%, -275%); }
-.shine-3 { transform: translate(275%, -50%); }
-.shine-4 { transform: translate(175%, 175%); }
-.shine-5 { transform: translate(-50%, 275%); }
-.shine-6 { transform: translate(-275%, 175%); }
-.shine-7 { transform: translate(-375%, -50%); }
-.shine-8 { transform: translate(-275%, -275%); }
+.shine-1 {
+    transform: translate(-50%, -375%);
+}
+
+.shine-2 {
+    transform: translate(175%, -275%);
+}
+
+.shine-3 {
+    transform: translate(275%, -50%);
+}
+
+.shine-4 {
+    transform: translate(175%, 175%);
+}
+
+.shine-5 {
+    transform: translate(-50%, 275%);
+}
+
+.shine-6 {
+    transform: translate(-275%, 175%);
+}
+
+.shine-7 {
+    transform: translate(-375%, -50%);
+}
+
+.shine-8 {
+    transform: translate(-275%, -275%);
+}
 
 .hero {
     background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
@@ -306,7 +332,7 @@ html.dark-mode .slider {
     right: 0;
     bottom: 0;
     background: radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
+        radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
     pointer-events: none;
     z-index: 1;
 }
@@ -418,7 +444,8 @@ section h2 {
     box-shadow: 1em 1em 0 var(--shadow-color);
 }
 
-.card:hover .card-pattern-grid, .card:hover .card-overlay-dots {
+.card:hover .card-pattern-grid,
+.card:hover .card-overlay-dots {
     opacity: 1;
 }
 
@@ -454,7 +481,7 @@ section h2 {
     position: absolute;
     inset: 0;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
     background-size: 0.5em 0.5em;
     pointer-events: none;
     opacity: 0.5;
@@ -957,7 +984,8 @@ section h2 {
     margin-bottom: 30px;
 }
 
-.input-container .input, .input-container textarea {
+.input-container .input,
+.input-container textarea {
     width: 100%;
     padding: 12px 10px;
     min-height: 45px;
@@ -983,7 +1011,8 @@ html.dark-mode .input-container textarea {
     resize: vertical;
 }
 
-.input-container .input:focus, .input-container textarea:focus {
+.input-container .input:focus,
+.input-container textarea:focus {
     box-shadow: none;
 }
 
@@ -1016,7 +1045,8 @@ html.dark-mode .input-container .label {
     transition: all 0.5s;
 }
 
-.input-container .input:focus~.topline, .input-container textarea:focus~.topline {
+.input-container .input:focus~.topline,
+.input-container textarea:focus~.topline {
     width: 35%;
 }
 
@@ -1030,12 +1060,15 @@ html.dark-mode .input-container .label {
     transition: all 0.5s;
 }
 
-.input-container .input:focus~.underline, .input-container textarea:focus~.underline {
+.input-container .input:focus~.underline,
+.input-container textarea:focus~.underline {
     width: 100%;
 }
 
-.input-container .input:focus~.label, .input-container textarea:focus~.label,
-.input-container .input:valid~.label, .input-container textarea:valid~.label {
+.input-container .input:focus~.label,
+.input-container textarea:focus~.label,
+.input-container .input:valid~.label,
+.input-container textarea:valid~.label {
     top: -22px;
     transform: scale(0.85);
     transition: all 0.3s ease;
@@ -1067,6 +1100,7 @@ html.dark-mode .input-container textarea:valid~.label {
         opacity: 0;
         transform: translateY(30px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -1252,6 +1286,7 @@ footer {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1259,18 +1294,60 @@ footer {
 }
 
 @media (max-width: 480px) {
-    section { padding: 60px 15px; }
-    nav .container { padding: 0 15px; }
-    nav ul { gap: 1rem; justify-content: center; }
-    nav .logo { font-size: 1.5rem; }
-    .hero { padding: 80px 15px; min-height: 60vh; }
-    .socialContainer { width: 60px; height: 60px; }
-    .socialSvg { width: 22px; height: 22px; }
-    .input-container .input, .input-container textarea { box-shadow: 4px 4px 0px 0px var(--input-border); }
-    .card-social { padding: 15px; gap: 15px; }
-    .nav-spacer { display: none; }
-    .button { width: 160px; height: 45px; }
-    .card { width: 18em; }
+    section {
+        padding: 60px 15px;
+    }
+
+    nav .container {
+        padding: 0 15px;
+    }
+
+    nav ul {
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    nav .logo {
+        font-size: 1.5rem;
+    }
+
+    .hero {
+        padding: 80px 15px;
+        min-height: 60vh;
+    }
+
+    .socialContainer {
+        width: 60px;
+        height: 60px;
+    }
+
+    .socialSvg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .input-container .input,
+    .input-container textarea {
+        box-shadow: 4px 4px 0px 0px var(--input-border);
+    }
+
+    .card-social {
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .nav-spacer {
+        display: none;
+    }
+
+    .button {
+        width: 160px;
+        height: 45px;
+    }
+
+    .card {
+        width: 18em;
+    }
 
     /* MOBILE DARK MODE FIX */
     .switch {
@@ -1320,39 +1397,98 @@ footer {
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
-    nav .logo { font-size: 1.6rem; }
-    section { padding: 70px 20px; }
+    nav .logo {
+        font-size: 1.6rem;
+    }
+
+    section {
+        padding: 70px 20px;
+    }
 }
 
 @media (max-width: 768px) {
-    .about-content { grid-template-columns: 1fr; gap: 2rem; }
-    .contact-content { grid-template-columns: 1fr; gap: 2rem; }
-    .contact-item { flex-direction: row; }
-    .social-section { margin: 0 10px; padding: 60px 15px; border-radius: 15px; }
-    .service-card { padding: 20px; }
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contact-item {
+        flex-direction: row;
+    }
+
+    .social-section {
+        margin: 0 10px;
+        padding: 60px 15px;
+        border-radius: 15px;
+    }
+
+    .service-card {
+        padding: 20px;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-    .services-grid { grid-template-columns: repeat(2, 1fr); }
-    .about-content { gap: 2.5rem; }
-    nav .container { padding: 0 30px; }
-    section { padding: 70px 30px; }
-    .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-content {
+        gap: 2.5rem;
+    }
+
+    nav .container {
+        padding: 0 30px;
+    }
+
+    section {
+        padding: 70px 30px;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {
-    section { max-width: 1100px; }
-    .hero { padding: 100px 30px; }
+    section {
+        max-width: 1100px;
+    }
+
+    .hero {
+        padding: 100px 30px;
+    }
 }
 
 @media (min-width: 1281px) {
-    section { max-width: 1400px; padding: 100px 40px; }
-    .hero { min-height: 75vh; }
-    .hero h1 { font-size: 4rem; }
-    .hero p { font-size: 1.4rem; }
-    .cards-grid { grid-template-columns: repeat(3, 1fr); }
+    section {
+        max-width: 1400px;
+        padding: 100px 40px;
+    }
+
+    .hero {
+        min-height: 75vh;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+    }
+
+    .hero p {
+        font-size: 1.4rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (min-width: 1920px) {
-    section { max-width: 1600px; }
+    section {
+        max-width: 1600px;
+    }
 }
