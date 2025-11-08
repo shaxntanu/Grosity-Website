@@ -1,4 +1,4 @@
-@ -1,105 +0,0 @@
+
 // Scroll to home on page load - FIXED
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
