@@ -1,15 +1,12 @@
 
 // Scroll to home on page load - FIXED
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-        const homeSection = document.getElementById('home');
-        if (homeSection) {
-            window.scrollTo({
-                top: homeSection.offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    }, 100);
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => document.body.classList.add('page-loaded'));
 });
 
 // Particles JS configuration - WITH FULL CURSOR INTERACTION

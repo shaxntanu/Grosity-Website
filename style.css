@@ -111,10 +111,17 @@ body {
     color: var(--text-primary);
     scroll-behavior: smooth;
     background-color: var(--bg-primary);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
     font-weight: 400;
     user-select: none;
     overflow-x: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+body.page-loaded {
+    opacity: 1;
+    transform: none;
 }
 
 .contact-item a,
@@ -152,7 +159,7 @@ nav .logo {
     color: #FFD700;
     letter-spacing: -1px;
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-    text-transform: lowercase;
+    text-transform: none;
 }
 
 nav ul {
@@ -313,6 +320,8 @@ html.dark-mode .slider {
     position: relative;
     overflow: hidden;
     perspective: 1000px;
+    margin: 20px;
+    border-radius: 30px;
 }
 
 #particles-js {
@@ -369,7 +378,7 @@ html.dark-mode .slider {
     max-width: 600px;
     animation: fadeInUp 1s ease 0.2s;
     animation-fill-mode: both;
-    font-weight: 400;
+    font-weight: 700;
     color: #000000;
     font-family: 'Plus Jakarta Sans', sans-serif;
     letter-spacing: 0.3px;
@@ -1177,11 +1186,12 @@ a.button {
 
 .social-section {
     text-align: center;
-    background: #FFD700;
+    background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
     color: #000000;
     padding: 80px 20px;
     border-radius: 30px;
     margin: 20px;
+    overflow: hidden;
 }
 
 .social-section h2 {
@@ -1323,6 +1333,13 @@ footer {
     .hero {
         padding: 80px 15px;
         min-height: 60vh;
+        margin: 15px;
+        border-radius: 20px;
+    }
+
+    .social-section {
+        margin: 15px;
+        border-radius: 20px;
     }
 
     .socialContainer {
@@ -1510,29 +1527,36 @@ footer {
   border-radius: 0.5rem;
   max-width: 290px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  background-color: var(--card-bg);
   width: 100%;
   border: none;
   transform: none;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), var(--role-bg, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #1f1f1f;
+}
+
+#order-section .card::before,
+#order-section .card::after {
+  content: none !important;
+  display: none !important;
 }
 
 html.dark-mode #order-section .card {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
-#order-section .card:hover {
-  transform: none;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+/* Role-specific background images */
+.card-farmer {
+  --role-bg: url("farmer.png");
 }
-
-html.dark-mode #order-section .card:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+.card-vendor {
+  --role-bg: url("vendor.png");
 }
-
-#order-section .card::before,
-#order-section .card::after {
-  display: none;
+.card-consumer {
+  --role-bg: url("consumer.png");
 }
 
 #order-section .dismiss {
@@ -1564,25 +1588,29 @@ html.dark-mode #order-section .card:hover {
 
 #order-section .header {
   padding: 1.25rem 1rem 1rem 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 #order-section .image {
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: rgba(34, 197, 94, 0.1);
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: rgba(34, 197, 94, 0.8);
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
   width: 3rem;
   height: 3rem;
   border-radius: 9999px;
-  animation: animate .6s linear alternate-reverse infinite;
+  animation: none;
   transition: .6s ease;
+  z-index: 3;
 }
 
 html.dark-mode #order-section .image {
-  background-color: rgba(34, 197, 94, 0.2);
+  background-color: rgba(34, 197, 94, 0.8);
 }
 
 #order-section .image svg {
@@ -1591,15 +1619,24 @@ html.dark-mode #order-section .image {
   height: 2rem;
 }
 
+#order-section .icon-emoji {
+  font-size: 1.5rem;
+  display: block;
+  line-height: 1;
+}
+
 #order-section .content {
   margin-top: 0.75rem;
   text-align: center;
+  position: relative;
+  z-index: 2;
+  padding-top: 3.5rem;
 }
 
 #order-section .title {
   color: #22C55E;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.5rem;
   transition: color 0.3s ease;
 }
@@ -1610,10 +1647,17 @@ html.dark-mode #order-section .title {
 
 #order-section .message {
   margin-top: 0.5rem;
-  color: var(--text-secondary);
+  color: #ffffff;
   font-size: 0.875rem;
   line-height: 1.25rem;
   transition: color 0.3s ease;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+html.dark-mode #order-section .message {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 #order-section .actions {
@@ -1621,6 +1665,8 @@ html.dark-mode #order-section .title {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  position: relative;
+  z-index: 2;
 }
 
 #order-section .card-action-btn {
@@ -1629,6 +1675,12 @@ html.dark-mode #order-section .title {
   font-size: 0.9rem;
   margin: 0;
   animation: none;
+  background-color: rgba(255, 215, 0, 0.65) !important;
+  backdrop-filter: blur(2px);
+}
+
+#order-section .card-action-btn:hover {
+  background-color: rgba(34, 197, 94, 0.85) !important;
 }
 
 #order-section .card-action-btn .btn-txt {
