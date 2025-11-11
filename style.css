@@ -315,29 +315,13 @@ html.dark-mode .slider {
     perspective: 1000px;
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('vegetables-bg.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 0;
-}
-
 #particles-js {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 0;
 }
 
 .hero::before {
@@ -350,12 +334,12 @@ html.dark-mode .slider {
     background: radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
     pointer-events: none;
-    z-index: 2;
+    z-index: 1;
 }
 
 .hero-content {
     position: relative;
-    z-index: 3;
+    z-index: 2;
     pointer-events: auto;
     will-change: transform;
 }
@@ -1257,6 +1241,10 @@ a.button {
     background-color: #25D366;
 }
 
+.containerFour {
+    background-color: #1877F2;
+}
+
 .containerOne:hover {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 10px 25px rgba(131, 58, 180, 0.4);
@@ -1270,6 +1258,11 @@ a.button {
 .containerThree:hover {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+}
+
+.containerFour:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(24, 119, 242, 0.4);
 }
 
 .socialContainer:active {
@@ -1520,8 +1513,8 @@ footer {
   background-color: var(--card-bg);
   width: 100%;
   border: none;
-  transform-origin: center;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 html.dark-mode #order-section .card {
@@ -1529,26 +1522,44 @@ html.dark-mode #order-section .card {
 }
 
 #order-section .card:hover {
-  transform: translate(-0.2em, -0.2em) scale(1.01);
-  box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08);
+  transform: none;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 html.dark-mode #order-section .card:hover {
-  box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.5), 0 15px 15px -5px rgba(0, 0, 0, 0.3);
-}
-
-#order-section .card:active {
-  transform: translate(0.05em, 0.05em) scale(0.99);
-  box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -5px rgba(0, 0, 0, 0.05);
-}
-
-html.dark-mode #order-section .card:active {
-  box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
 }
 
 #order-section .card::before,
 #order-section .card::after {
   display: none;
+}
+
+#order-section .dismiss {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  font-size: 1rem;
+  font-weight: 300;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#order-section .dismiss:hover {
+  background-color: #ee0d0d;
+  border: 2px solid #ee0d0d;
+  color: #fff;
 }
 
 #order-section .header {
@@ -1572,14 +1583,6 @@ html.dark-mode #order-section .card:active {
 
 html.dark-mode #order-section .image {
   background-color: rgba(34, 197, 94, 0.2);
-}
-
-#order-section .image .icon-emoji {
-  font-size: 1.8rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #order-section .image svg {
@@ -1637,7 +1640,6 @@ html.dark-mode #order-section .title {
   from {
     transform: scale(1);
   }
-
   to {
     transform: scale(1.09);
   }
