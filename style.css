@@ -349,6 +349,8 @@ html.dark-mode .slider {
     gap: 8px;
     transition: all 0.3s ease;
     user-select: none;
+    position: relative;
+    z-index: 1001;
 }
 
 .dropdown-button:hover {
@@ -374,11 +376,16 @@ body.dropdown-expanded .dropdown-arrow {
 
 .dropdown-menu {
     position: absolute;
-    top: 45px;
+    top: 50px;
     right: -10px;
     width: 160px;
     height: 140px;
     z-index: 1000;
+    pointer-events: none;
+}
+
+body.dropdown-expanded .dropdown-menu {
+    pointer-events: auto;
 }
 
 .dropdown-container-svg {
