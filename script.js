@@ -4,21 +4,22 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     window.scrollTo(0, 0);
     requestAnimationFrame(() => document.body.classList.add('page-loaded'));
 });
 
 // Particles JS configuration - WITH FULL CURSOR INTERACTION
-setTimeout(() => {
-    particlesJS("particles-js", {
+const getParticleConfig = () => {
+    const isMobile = window.innerWidth <= 768;
+    return {
         particles: {
-            number: { value: 280, density: { enable: true, value_area: 800 } },
+            number: { value: isMobile ? 150 : 280, density: { enable: true, value_area: 800 } },
             color: { value: "#000000" },
             shape: { type: "circle" },
             opacity: { value: 0.3, random: true, anim: { enable: true, speed: 0.4, opacity_min: 0.1, sync: false } },
-            size: { value: 2.8, random: true, anim: { enable: true, speed: 25, size_min: 0.1, sync: false } },
-            line_linked: { enable: true, distance: 180, color: "#000000", opacity: 0.2, width: 0.9 },
+            size: { value: isMobile ? 2 : 2.8, random: true, anim: { enable: true, speed: 25, size_min: 0.1, sync: false } },
+            line_linked: { enable: true, distance: isMobile ? 120 : 180, color: "#000000", opacity: 0.2, width: 0.9 },
             move: { enable: true, speed: 0.6, direction: "top-right", straight: false, out_mode: "out", bounce: false, attract: { enable: false } }
         },
         interactivity: {
@@ -28,11 +29,30 @@ setTimeout(() => {
                 onclick: { enable: true, mode: "repulse" },
                 resize: true
             },
-            modes: { repulse: { distance: 140, duration: 0.8, speed: 3.2, easing: "ease-out-quad" } }
+            modes: { repulse: { distance: isMobile ? 80 : 140, duration: 0.8, speed: 3.2, easing: "ease-out-quad" } }
         },
         retina_detect: true
-    });
+    };
+};
+
+const initParticles = () => {
+    const config = getParticleConfig();
+    particlesJS("particles-js", config);
+    particlesJS("particles-js-social", config);
+};
+
+setTimeout(() => {
+    initParticles();
 }, 500);
+
+// Reinitialize particles on window resize for better responsiveness
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        initParticles();
+    }, 250);
+});
 
 // Year update
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -64,9 +84,9 @@ if (currentTheme === 'dark') {
 }
 
 // Change event for checkbox
-darkModeToggle.addEventListener('change', function() {
+darkModeToggle.addEventListener('change', function () {
     const isChecked = this.checked;
-    
+
     if (isChecked) {
         html.classList.add('dark-mode');
         localStorage.setItem('theme', 'dark');
@@ -74,13 +94,13 @@ darkModeToggle.addEventListener('change', function() {
         html.classList.remove('dark-mode');
         localStorage.setItem('theme', 'light');
     }
-    
+
     // Force repaint
     html.style.backgroundColor = html.style.backgroundColor;
 });
 
 // Click event for mobile touch support
-darkModeToggle.addEventListener('click', function(e) {
+darkModeToggle.addEventListener('click', function (e) {
     e.stopPropagation();
 });
 

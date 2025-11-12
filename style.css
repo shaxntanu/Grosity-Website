@@ -160,6 +160,32 @@ nav .logo {
     letter-spacing: -1px;
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     text-transform: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav .logo:hover {
+    color: #FFC700;
+}
+
+.beta-badge {
+    font-size: 0.4em;
+    font-weight: 700;
+    color: #000000;
+    background: #FFD700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    vertical-align: super;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 nav ul {
@@ -320,8 +346,9 @@ html.dark-mode .slider {
     position: relative;
     overflow: hidden;
     perspective: 1000px;
-    margin: 20px;
+    margin: 20px auto;
     border-radius: 30px;
+    width: calc(100% - 40px);
 }
 
 #particles-js {
@@ -330,7 +357,8 @@ html.dark-mode .slider {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 0;
+    z-index: 1;
+    pointer-events: auto;
 }
 
 .hero::before {
@@ -1190,8 +1218,27 @@ a.button {
     color: #000000;
     padding: 80px 20px;
     border-radius: 30px;
-    margin: 20px;
+    margin: 20px auto;
     overflow: hidden;
+    position: relative;
+    width: calc(100% - 40px);
+}
+
+#particles-js-social {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border-radius: 30px;
+    pointer-events: auto;
+}
+
+.social-content {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
 }
 
 .social-section h2 {
@@ -1224,6 +1271,8 @@ a.button {
     margin: 0 auto;
     border-radius: 20px;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
 }
 
 .socialContainer {
@@ -1237,6 +1286,16 @@ a.button {
     cursor: pointer;
     text-decoration: none;
     border: none;
+    pointer-events: auto;
+}
+
+.socialContainer::before {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    pointer-events: none;
 }
 
 .containerOne {
@@ -1333,12 +1392,19 @@ footer {
     .hero {
         padding: 80px 15px;
         min-height: 60vh;
-        margin: 15px;
+        margin: 15px auto;
         border-radius: 20px;
+        width: calc(100% - 30px);
     }
 
     .social-section {
-        margin: 15px;
+        margin: 15px auto;
+        border-radius: 20px;
+        padding: 60px 15px;
+        width: calc(100% - 30px);
+    }
+    
+    #particles-js-social {
         border-radius: 20px;
     }
 
@@ -1448,8 +1514,9 @@ footer {
     }
 
     .social-section {
-        margin: 0 10px;
+        margin: 20px auto;
         padding: 60px 15px;
+        width: calc(100% - 40px);
         border-radius: 15px;
     }
 
