@@ -287,13 +287,13 @@ const translations = {
 function translatePage(langCode) {
     const lang = translations[langCode] || translations.en;
     const elements = document.querySelectorAll('[data-translate]');
-    
+
     // Add staggered animation to elements
     elements.forEach((element, index) => {
         // Stagger the animation slightly for each element
         setTimeout(() => {
             element.classList.add('translating');
-            
+
             // Change text at the midpoint of animation (when opacity is 0)
             setTimeout(() => {
                 const key = element.getAttribute('data-translate');
@@ -301,7 +301,7 @@ function translatePage(langCode) {
                     element.textContent = lang[key];
                 }
             }, 300);
-            
+
             // Remove animation class after animation completes
             setTimeout(() => {
                 element.classList.remove('translating');
@@ -318,49 +318,49 @@ function toggleLanguageDropdown() {
 function selectLanguage(langCode, langName) {
     // Show loader
     showLoader();
-    
+
     // Update selected language display
     document.getElementById('selectedLanguage').textContent = langName;
-    
+
     // Store selected language
     localStorage.setItem('selectedLanguage', langCode);
     localStorage.setItem('selectedLanguageName', langName);
-    
+
     // Update selected state in dropdown
     document.querySelectorAll('.dropdown-row').forEach(row => {
         row.classList.remove('selected');
     });
     document.querySelector(`[data-lang="${langCode}"]`).classList.add('selected');
-    
+
     // Close dropdown
     document.body.classList.remove('dropdown-expanded');
-    
+
     // Start translation after loader appears
     setTimeout(() => {
         translatePage(langCode);
-        
+
         // Hide loader after all translations complete
         // Calculate total time: stagger delay * elements + animation time
         const elements = document.querySelectorAll('[data-translate]').length;
         const totalTime = (elements * 20) + 700;
-        
+
         setTimeout(() => {
             hideLoader();
         }, totalTime);
     }, 300);
-    
+
     console.log(`Language changed to: ${langName} (${langCode})`);
 }
 
 // Initialize language on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const savedLang = localStorage.getItem('selectedLanguage') || 'en';
     const savedLangName = localStorage.getItem('selectedLanguageName') || 'English';
-    
+
     // Set initial language
     document.getElementById('selectedLanguage').textContent = savedLangName;
     document.querySelector(`[data-lang="${savedLang}"]`)?.classList.add('selected');
-    
+
     // Apply translation
     translatePage(savedLang);
 });
@@ -377,7 +377,7 @@ function hideLoader() {
 }
 
 // Dropdown close on outside click
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (!e.target.closest('.dropdown-container')) {
         document.body.classList.remove('dropdown-expanded');
     }
@@ -386,42 +386,41 @@ document.addEventListener('click', function(e) {
 // Form submit handler
 function handleSubmit(event) {
     event.preventDefault();
-    
+
     // Show loader
     showLoader();
-    
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-        hideLoader();
-        
-        // Show success message after loader hides
-        setTimeout(() => {
-            alert('Thank you for your message! We will get back to you soon.');
-            event.target.reset();
-        }, 700);
-    }, 2000);
-    
-    // Example of how to use with actual API:
-    /*
-    fetch('/api/contact', {
-        method: 'POST',
-        body: new FormData(event.target)
-    })
-    .then(response => response.json())
-    .then(data => {
-        hideLoader();
-        setTimeout(() => {
-            alert('Thank you for your message! We will get back to you soon.');
-            event.target.reset();
-        }, 700);
-    })
-    .catch(error => {
-        hideLoader();
-        setTimeout(() => {
-            alert('Sorry, there was an error. Please try again.');
-        }, 700);
-    });
-    */
+
+    // Get form data
+    const formData = {
+        name: event.target.name.value,
+        email: event.target.email.value,
+        subject: event.target.subject.value,
+        message: event.target.message.value,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        status: 'new'
+    };
+
+    // Save to Firebase Firestore
+    db.collection('contacts').add(formData)
+        .then(function(docRef) {
+            console.log('✅ Message saved with ID:', docRef.id);
+            hideLoader();
+
+            // Show success message after loader hides
+            setTimeout(() => {
+                alert('Thank you for your message! We will get back to you soon.\n\nFor immediate assistance:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
+                event.target.reset();
+            }, 700);
+        })
+        .catch(function(error) {
+            console.error('❌ Error saving message:', error);
+            hideLoader();
+
+            // Show error message
+            setTimeout(() => {
+                alert('Sorry, there was an error submitting your message.\n\nPlease contact us directly:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
+            }, 700);
+        });
 }
 
 
