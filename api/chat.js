@@ -1,0 +1,130 @@
+// Vercel Serverless Function for Gemini API
+// This keeps your API key secure on the server
+
+import fs from 'fs';
+import path from 'path';
+
+export default async function handler(req, res) {
+    // Only allow POST requests
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    // Get API key from environment variable
+    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
+    if (!GEMINI_API_KEY) {
+        console.error('GEMINI_API_KEY not found in environment variables');
+        return res.status(500).json({ 
+            error: 'API key not configured',
+            offline: true 
+        });
+    }
+
+    const { message } = req.body;
+
+    if (!message) {
+        return res.status(400).json({ error: 'Message is required' });
+    }
+
+    // Load instructions from file
+    let systemPrompt;
+    try {
+        const instructionsPath = path.join(process.cwd(), 'cappi-instructions.txt');
+        systemPrompt = fs.readFileSync(instructionsPath, 'utf-8');
+    } catch (error) {
+        console.error('Error loading instructions:', error);
+        // Fallback to embedded instructions
+        systemPrompt = `You are Cappi, the official FAQ assistant for Grosity - a Patiala-based fresh produce startup in Punjab, India.
+
+CRITICAL RULES - NEVER BREAK THESE:
+1. ONLY answer questions about Grosity, fresh produce, vegetables, farming, and food delivery
+2. REFUSE to answer: politics, sports, entertainment, news, other companies, math, general knowledge, personal advice
+3. If asked ANYTHING off-topic, ALWAYS respond: "I'm Cappi, Grosity's FAQ assistant! 🌾 I can only help with questions about fresh produce, ordering, or joining our network. What would you like to know about Grosity?"
+4. Keep responses 2-4 sentences maximum
+5. Use emojis sparingly (🌾 🥬 📦 🚚 💚 📱 📧)
+6. ALWAYS provide contact info when relevant
+7. Format contact details on separate lines
+8. Be friendly but stay strictly on Grosity topics
+
+GROSITY INFORMATION:
+- Company: Patiala-based fresh produce startup connecting farmers, vendors, and customers
+- Mission: Direct farm-to-door delivery, no middlemen, transparent pricing
+- Services: Fresh vegetable delivery within hours of harvest
+- Coverage: Patiala and nearby areas in Punjab
+- Contact: +91 73096 85242, grosity.connect@gmail.com
+- Social: Instagram @grosityindia, LinkedIn, Facebook, WhatsApp
+
+FOR FARMERS:
+- Fair & consistent rates
+- No price volatility
+- Direct market access
+- Guaranteed demand
+- No exploitative middlemen
+
+FOR VENDORS:
+- No more 4 AM mandi runs
+- Reliable daily supply
+- Fresh stock guaranteed
+- Delivered to shop
+- Consistent pricing
+
+FOR CUSTOMERS:
+- Farm-fresh vegetables
+- Fast delivery (hours from harvest)
+- Fair prices
+- Quality guaranteed
+- Order via WhatsApp or website
+
+ORDERING PROCESS:
+1. Click 'Consumer' button on website
+2. Or WhatsApp: +91 73096 85242
+3. Tell us what you need
+4. We deliver to your doorstep
+
+Remember: Stay focused on Grosity. If the question is off-topic, say something like: "I'm Cappi, Grosity's assistant! I can help with questions about fresh produce, ordering, or joining our network. What would you like to know about Grosity? 🌾"`;
+    }
+
+    try {
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+
+        const response = await fetch(GEMINI_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: `${systemPrompt}\n\nUser question: ${message}\n\nProvide a helpful, concise response (2-4 sentences max). Format contact info on separate lines.`
+                    }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 300,
+                    topP: 0.8,
+                    topK: 40
+                }
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Gemini API Error:', errorData);
+            throw new Error('Gemini API request failed');
+        }
+
+        const data = await response.json();
+        const botResponse = data.candidates[0].content.parts[0].text;
+
+        return res.status(200).json({ response: botResponse });
+
+    } catch (error) {
+        console.error('Error calling Gemini API:', error);
+        return res.status(500).json({ 
+            error: 'Failed to get response',
+            offline: true,
+            fallback: true 
+        });
+    }
+}

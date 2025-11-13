@@ -465,3 +465,374 @@ fetchWithLoader('/api/data')
     .then(data => console.log(data))
     .catch(err => console.error(err));
 */
+
+
+// Chatbot Functions
+function toggleChat() {
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.classList.toggle('active');
+    
+    // Focus input when opening
+    if (chatWindow.classList.contains('active')) {
+        setTimeout(() => {
+            document.getElementById('chatInput').focus();
+        }, 300);
+    }
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (message === '') return;
+    
+    // Add user message
+    addMessage(message, 'user');
+    
+    // Clear input
+    input.value = '';
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    try {
+        // Get response from Gemini API
+        const response = await getGeminiResponse(message);
+        
+        // Remove typing indicator
+        removeTypingIndicator();
+        
+        // Add bot response
+        addMessage(response, 'bot');
+    } catch (error) {
+        console.error('Error getting response:', error);
+        
+        // Remove typing indicator
+        removeTypingIndicator();
+        
+        // Fallback response
+        const fallbackResponse = getFallbackResponse(message);
+        addMessage(fallbackResponse, 'bot');
+    }
+}
+
+function handleChatKeyPress(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+}
+
+function addMessage(text, sender) {
+    const messagesContainer = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    
+    if (sender === 'bot') {
+        // Format the message with clickable links
+        const formattedText = formatMessageWithLinks(text);
+        messageDiv.innerHTML = `
+            <img src="cappi.png" alt="Cappi" class="message-avatar">
+            <div class="message-content">
+                ${formattedText}
+            </div>
+        `;
+    } else {
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <p>${text}</p>
+            </div>
+        `;
+    }
+    
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function formatMessageWithLinks(text) {
+    // Split by newlines to preserve formatting
+    const lines = text.split('\n');
+    let formattedHTML = '';
+    
+    lines.forEach((line, index) => {
+        if (line.trim() === '') {
+            formattedHTML += '<br>';
+            return;
+        }
+        
+        let formattedLine = line;
+        
+        // Make phone numbers clickable
+        formattedLine = formattedLine.replace(/(\+91\s*\d{5}\s*\d{5})/g, '<a href="tel:$1" class="chat-link">$1</a>');
+        
+        // Make emails clickable
+        formattedLine = formattedLine.replace(/(grosity\.connect@gmail\.com)/g, '<a href="mailto:$1" class="chat-link">$1</a>');
+        
+        formattedHTML += `<p>${formattedLine}</p>`;
+    });
+    
+    return formattedHTML;
+}
+
+async function askFAQ(question) {
+    // Add user question
+    addMessage(question, 'user');
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    try {
+        // Get response from Gemini API
+        const response = await getGeminiResponse(question);
+        
+        // Remove typing indicator
+        removeTypingIndicator();
+        
+        // Add bot response
+        addMessage(response, 'bot');
+    } catch (error) {
+        console.error('Error getting response:', error);
+        
+        // Remove typing indicator
+        removeTypingIndicator();
+        
+        // Fallback response
+        const fallbackResponse = getFallbackResponse(question);
+        addMessage(fallbackResponse, 'bot');
+    }
+}
+
+function showTypingIndicator() {
+    const messagesContainer = document.getElementById('chatMessages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'typing-indicator';
+    typingDiv.id = 'typingIndicator';
+    typingDiv.innerHTML = `
+        <img src="cappi.png" alt="Cappi" class="message-avatar">
+        <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        </div>
+    `;
+    messagesContainer.appendChild(typingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+// Track online/offline status
+let isCappiOnline = true;
+
+// Update status indicator
+function updateCappiStatus(online) {
+    isCappiOnline = online;
+    const statusElement = document.querySelector('.chat-status');
+    if (statusElement) {
+        if (online) {
+            statusElement.textContent = 'Online';
+            statusElement.classList.remove('offline');
+        } else {
+            statusElement.textContent = 'Offline';
+            statusElement.classList.add('offline');
+        }
+    }
+}
+
+// Gemini API Integration via Backend
+async function getGeminiResponse(userMessage) {
+    try {
+        // Call our backend API endpoint
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: userMessage
+            })
+        });
+
+        const data = await response.json();
+        
+        // Check if API is offline
+        if (data.offline || data.fallback) {
+            updateCappiStatus(false);
+            return getOfflineResponse(userMessage);
+        }
+        
+        if (!response.ok) {
+            throw new Error('Backend API request failed');
+        }
+        
+        // API is working
+        updateCappiStatus(true);
+        return data.response;
+        
+    } catch (error) {
+        console.error('API Error:', error);
+        // Set offline status
+        updateCappiStatus(false);
+        // Use offline responses
+        return getOfflineResponse(userMessage);
+    }
+}
+
+// Offline mode - Comprehensive responses
+function getOfflineResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // What is Grosity
+    if (lowerMessage.includes('what is grosity') || lowerMessage.includes('about grosity')) {
+        return "Grosity is a Patiala-based fresh produce startup that connects farmers, vendors, and customers through a transparent supply chain.\n\nWe deliver farm-fresh vegetables directly from farmers to your doorstep - no middlemen, no compromises! 🌾✨";
+    }
+    
+    // How to order
+    if (lowerMessage.includes('how') && (lowerMessage.includes('order') || lowerMessage.includes('buy'))) {
+        return "Ordering is easy! 📦\n\n1. Click 'Consumer' button on website\n2. Or WhatsApp us at:\n+91 73096 85242\n\n3. Tell us what you need\n4. We deliver to your doorstep!";
+    }
+    
+    // Delivery areas
+    if (lowerMessage.includes('deliver') || lowerMessage.includes('area') || lowerMessage.includes('location')) {
+        return "We deliver in Patiala and nearby areas in Punjab! 📍\n\nFarm to door within hours of harvest.\n\nContact us:\n+91 73096 85242";
+    }
+    
+    // For farmers
+    if (lowerMessage.includes('farmer')) {
+        return "🌾 Benefits for Farmers:\n\n✅ Fair & consistent rates\n✅ No price volatility\n✅ Direct market access\n✅ Guaranteed demand\n\nJoin us:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    // For vendors
+    if (lowerMessage.includes('vendor') || lowerMessage.includes('shop')) {
+        return "🏪 Benefits for Vendors:\n\n✅ No 4 AM mandi runs\n✅ Reliable daily supply\n✅ Fresh stock guaranteed\n✅ Delivered to shop\n\nContact:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    // Contact information
+    if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
+        return "📞 Contact Grosity:\n\n📧 Email:\ngrosity.connect@gmail.com\n\n📱 Phone:\n+91 73096 85242\n\n📍 Location:\nPatiala, Punjab, India\n\nWe're here to help!";
+    }
+    
+    // Pricing
+    if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('rate')) {
+        return "We offer transparent pricing with no hidden costs! 💰\n\nFair rates for farmers, affordable prices for customers.\n\nFor current rates:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    // Quality/Freshness
+    if (lowerMessage.includes('fresh') || lowerMessage.includes('quality')) {
+        return "Our vegetables go from farm to your door within hours! 🥬\n\nDirect from local farmers = maximum freshness.\n\nOrder now:\n+91 73096 85242";
+    }
+    
+    // Off-topic detection
+    if (lowerMessage.includes('cricket') || lowerMessage.includes('politics') || 
+        lowerMessage.includes('weather') || lowerMessage.includes('news') ||
+        lowerMessage.includes('movie') || lowerMessage.includes('joke')) {
+        return "I'm Cappi, Grosity's FAQ assistant! 🌾\n\nI can only help with:\n• Fresh produce\n• Ordering\n• Delivery info\n• Joining our network\n\nWhat would you like to know about Grosity?";
+    }
+    
+    // Default response
+    return "I'm currently in offline mode. 📴\n\nFor detailed information, please contact us:\n\n📱 Phone:\n+91 73096 85242\n\n📧 Email:\ngrosity.connect@gmail.com\n\nWe're here to help!";
+}
+
+function getBotResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    
+    // FAQ: What is Grosity?
+    if (lowerMessage.includes('what is grosity') || lowerMessage === 'what is grosity?') {
+        return "Grosity is a Patiala-based fresh produce startup that connects farmers, vendors, and customers through a transparent supply chain.\n\nWe deliver farm-fresh vegetables directly from farmers to your doorstep - no middlemen, no compromises! 🌾✨";
+    }
+    
+    // FAQ: How to order
+    if (lowerMessage.includes('how do i order') || lowerMessage.includes('how to order')) {
+        return "Ordering is super easy! 📦\n\n1. Click the 'Consumer' button on our website\n2. Or WhatsApp us at:\n+91 73096 85242\n\n3. Tell us what you need\n4. We'll deliver fresh produce to your doorstep!\n\nFast, fresh, and fair! 🚚";
+    }
+    
+    // FAQ: Delivery areas
+    if (lowerMessage.includes('delivery area') || lowerMessage.includes('where do you deliver')) {
+        return "We currently deliver in Patiala and nearby areas in Punjab! 📍\n\nOur delivery is super fast - we get produce from farm to your door within hours of harvest.\n\nPlanning to expand soon! Want delivery in your area?\n\nContact us:\n+91 73096 85242";
+    }
+    
+    // FAQ: For farmers
+    if (lowerMessage.includes('for farmers') || (lowerMessage.includes('farmer') && !lowerMessage.includes('from'))) {
+        return "🌾 Benefits for Farmers:\n\n✅ Fair & consistent rates\n✅ No price volatility\n✅ Direct market access\n✅ Guaranteed demand\n✅ No exploitative middlemen\n\nJoin our network!\n\nContact:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    // FAQ: For vendors
+    if (lowerMessage.includes('for vendors') || (lowerMessage.includes('vendor') && !lowerMessage.includes('to'))) {
+        return "🏪 Benefits for Vendors:\n\n✅ No more 4 AM mandi runs\n✅ Reliable daily supply\n✅ Fresh stock guaranteed\n✅ Delivered to your shop\n✅ Consistent pricing\n\nInterested?\n\nCall us:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    // FAQ: Contact info
+    if (lowerMessage.includes('contact info') || lowerMessage.includes('contact details')) {
+        return "📞 Contact Grosity:\n\n📧 Email:\ngrosity.connect@gmail.com\n\n📱 Phone:\n+91 73096 85242\n\n📍 Location:\nPatiala, Punjab, India\n\nWe're here to help! Reach out anytime 😊";
+    }
+    
+    // Greetings
+    if (lowerMessage.match(/^(hi|hello|hey|namaste|sat sri akal)/)) {
+        return "Hello! 👋\n\nI'm Cappi, your Grosity FAQ assistant.\n\nClick any question button above or ask me anything about Grosity!";
+    }
+    
+    // About Grosity (general)
+    if (lowerMessage.includes('grosity') || lowerMessage.includes('about')) {
+        return "Grosity connects farmers, vendors, and customers directly!\n\nWe ensure fresh produce, fair prices, and fast delivery.\n\nNo middlemen = better prices for everyone! 🌾💚";
+    }
+    
+    // Customers/Order (general)
+    if (lowerMessage.includes('order') || lowerMessage.includes('buy') || lowerMessage.includes('customer')) {
+        return "You can order fresh vegetables via WhatsApp or click the 'Consumer' button on our website!\n\nWhatsApp:\n+91 73096 85242\n\nWe deliver farm-fresh produce right to your doorstep 📦🥬";
+    }
+    
+    // Contact (general)
+    if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
+        return "📧 Email:\ngrosity.connect@gmail.com\n\n📱 Phone:\n+91 73096 85242\n\n📍 Location:\nPatiala, Punjab\n\nFeel free to reach out anytime!";
+    }
+    
+    // Delivery (general)
+    if (lowerMessage.includes('deliver') || lowerMessage.includes('shipping') || lowerMessage.includes('area')) {
+        return "We deliver fresh produce within hours of harvest!\n\nCurrently serving Patiala and nearby areas.\n\nFast, fresh, and fair! 🚚✨";
+    }
+    
+    // Pricing
+    if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('rate')) {
+        return "We offer transparent pricing with no hidden costs!\n\nFair rates for farmers, affordable prices for customers.\n\nContact us for current rates:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    // Fresh/Quality
+    if (lowerMessage.includes('fresh') || lowerMessage.includes('quality')) {
+        return "Our produce goes from farm to your door within hours!\n\nWe work directly with local farmers to ensure maximum freshness.\n\nNo long supply chains = fresher vegetables! 🥬✨";
+    }
+    
+    // Timing/Hours
+    if (lowerMessage.includes('time') || lowerMessage.includes('hour') || lowerMessage.includes('when')) {
+        return "We operate daily to ensure fresh supply!\n\nFor specific delivery times and availability, please contact us:\n\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    // Thanks
+    if (lowerMessage.match(/(thank|thanks|dhanyavaad|shukriya)/)) {
+        return "You're welcome! 😊\n\nFeel free to ask more questions or contact us directly.\n\nHappy to help! 🌾";
+    }
+    
+    // Default response
+    const responses = [
+        "Great question!\n\nFor detailed information, please contact us:\n\n📱 Phone:\n+91 73096 85242\n\n📧 Email:\ngrosity.connect@gmail.com",
+        "I'd love to help with that!\n\nYou can reach our team at:\n\n+91 73096 85242\ngrosity.connect@gmail.com",
+        "For specific queries, our team is available at:\n\n📧 Email:\ngrosity.connect@gmail.com\n\n📱 Phone:\n+91 73096 85242"
+    ];
+    
+    return responses[Math.floor(Math.random() * responses.length)];
+}
+
+// Close chat when clicking outside
+document.addEventListener('click', function(e) {
+    const chatWindow = document.getElementById('chatWindow');
+    const chatBtn = document.querySelector('.chatBtn');
+    
+    if (chatWindow && chatWindow.classList.contains('active')) {
+        if (!chatWindow.contains(e.target) && !chatBtn.contains(e.target)) {
+            chatWindow.classList.remove('active');
+        }
+    }
+});
