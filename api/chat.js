@@ -87,7 +87,7 @@ Remember: Stay focused on Grosity. If the question is off-topic, say something l
 
     try {
         console.log('Attempting to call Gemini API...');
-        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
 
         const response = await fetch(GEMINI_API_URL, {
             method: 'POST',
@@ -95,16 +95,18 @@ Remember: Stay focused on Grosity. If the question is off-topic, say something l
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
                 contents: [{
                     parts: [{
-                        text: `${systemPrompt}\n\nUser question: ${message}\n\nProvide a helpful, concise response (2-4 sentences max). Format contact info on separate lines.`
+                        text: message
                     }]
                 }],
                 generationConfig: {
                     temperature: 0.7,
                     maxOutputTokens: 300,
-                    topP: 0.8,
-                    topK: 40
+                    topP: 0.8
                 }
             })
         });
