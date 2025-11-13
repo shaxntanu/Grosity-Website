@@ -1,41 +1,18 @@
-// Vercel Serverless Function for Gemini API
-// This keeps your API key secure on the server
-
-const fs = require('fs');
-const path = require('path');
-
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
     // Only allow POST requests
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    // Get API key from environment variable
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
-    if (!GEMINI_API_KEY) {
-        console.error('GEMINI_API_KEY not found in environment variables');
-        return res.status(500).json({ 
-            error: 'API key not configured',
-            offline: true 
-        });
-    }
-
-    const { message } = req.body;
-
-    if (!message) {
-        return res.status(400).json({ error: 'Message is required' });
-    }
-
-    // Load instructions from file
-    let systemPrompt;
     try {
-        const instructionsPath = path.join(process.cwd(), 'cappi-instructions.txt');
-        systemPrompt = fs.readFileSync(instructionsPath, 'utf-8');
-    } catch (error) {
-        console.error('Error loading instructions:', error);
-        // Fallback to embedded instructions
-        systemPrompt = `You are Cappi, the official FAQ assistant for Grosity - a Patiala-based fresh produce startup in Punjab, India.
+        const { message } = req.body;
+
+        if (!message) {
+            return res.status(400).json({ error: 'Message is required' });
+        }
+
+        // System instruction for Cappi
+        const systemPrompt = `You are Cappi, the official FAQ assistant for Grosity - a Patiala-based fresh produce startup in Punjab, India.
 
 CRITICAL RULES - NEVER BREAK THESE:
 1. ONLY answer questions about Grosity, fresh produce, vegetables, farming, and food delivery
@@ -83,26 +60,16 @@ ORDERING PROCESS:
 4. We deliver to your doorstep
 
 Remember: Stay focused on Grosity. If the question is off-topic, say something like: "I'm Cappi, Grosity's assistant! I can help with questions about fresh produce, ordering, or joining our network. What would you like to know about Grosity? 🌾"`;
-    }
 
-    try {
-        console.log('Attempting to call Gemini API...');
-        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
-
-        const response = await fetch(GEMINI_API_URL, {
+        // Call Gemini API with environment variable
+        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + process.env.GEMINI_API_KEY, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 systemInstruction: {
                     parts: [{ text: systemPrompt }]
                 },
-                contents: [{
-                    parts: [{
-                        text: message
-                    }]
-                }],
+                contents: [{ parts: [{ text: message }] }],
                 generationConfig: {
                     temperature: 0.7,
                     maxOutputTokens: 300,
@@ -112,25 +79,29 @@ Remember: Stay focused on Grosity. If the question is off-topic, say something l
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Gemini API Error:', errorData);
-            console.error('Status:', response.status);
-            console.error('Status Text:', response.statusText);
-            throw new Error(`Gemini API request failed: ${response.status} - ${JSON.stringify(errorData)}`);
+            throw new Error(`Gemini API Error: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('Gemini API Success!');
-        const botResponse = data.candidates[0].content.parts[0].text;
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        return res.status(200).json({ response: botResponse });
+        // Return response in same format as Marcus
+        res.status(200).json({
+            candidates: [{
+                content: {
+                    parts: [{ text: reply || "I'm currently offline. Please try again." }]
+                }
+            }]
+        });
 
     } catch (error) {
-        console.error('Error calling Gemini API:', error);
-        return res.status(500).json({ 
-            error: 'Failed to get response',
-            offline: true,
-            fallback: true 
+        console.error('Cappi API Error:', error);
+        res.status(200).json({
+            candidates: [{
+                content: {
+                    parts: [{ text: "I'm currently in offline mode. For assistance, contact +91 73096 85242 or grosity.connect@gmail.com" }]
+                }
+            }]
         });
     }
 }

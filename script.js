@@ -730,6 +730,8 @@ function updateCappiStatus(online) {
 // Gemini API Integration via Backend
 async function getGeminiResponse(userMessage) {
     try {
+        console.log('🔍 Calling Cappi backend API...');
+        
         // Call our backend API endpoint
         const response = await fetch('/api/chat', {
             method: 'POST',
@@ -741,7 +743,12 @@ async function getGeminiResponse(userMessage) {
             })
         });
 
+        if (!response.ok) {
+            throw new Error(`Backend Error: ${response.status}`);
+        }
+
         const data = await response.json();
+        console.log('✅ Backend Response:', data);
         
         // Check if API is offline
         if (data.offline || data.fallback) {
@@ -749,16 +756,19 @@ async function getGeminiResponse(userMessage) {
             return getOfflineResponse(userMessage);
         }
         
-        if (!response.ok) {
-            throw new Error('Backend API request failed');
+        // Extract reply from response (same format as Marcus)
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        if (reply && reply.trim()) {
+            // API is working
+            updateCappiStatus(true);
+            return reply;
+        } else {
+            throw new Error('Empty response from API');
         }
         
-        // API is working
-        updateCappiStatus(true);
-        return data.response;
-        
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('💥 Cappi Error:', error);
         // Set offline status
         updateCappiStatus(false);
         // Use offline responses
