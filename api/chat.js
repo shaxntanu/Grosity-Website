@@ -86,6 +86,7 @@ Remember: Stay focused on Grosity. If the question is off-topic, say something l
     }
 
     try {
+        console.log('Attempting to call Gemini API...');
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
         const response = await fetch(GEMINI_API_URL, {
@@ -111,10 +112,13 @@ Remember: Stay focused on Grosity. If the question is off-topic, say something l
         if (!response.ok) {
             const errorData = await response.json();
             console.error('Gemini API Error:', errorData);
-            throw new Error('Gemini API request failed');
+            console.error('Status:', response.status);
+            console.error('Status Text:', response.statusText);
+            throw new Error(`Gemini API request failed: ${response.status} - ${JSON.stringify(errorData)}`);
         }
 
         const data = await response.json();
+        console.log('Gemini API Success!');
         const botResponse = data.candidates[0].content.parts[0].text;
 
         return res.status(200).json({ response: botResponse });
