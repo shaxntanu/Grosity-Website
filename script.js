@@ -743,15 +743,12 @@ async function getGeminiResponse(userMessage) {
             })
         });
 
-        if (!response.ok) {
-            throw new Error(`Backend Error: ${response.status}`);
-        }
-
         const data = await response.json();
         console.log('✅ Backend Response:', data);
         
-        // Check if API is offline
-        if (data.offline || data.fallback) {
+        // Check if API returned offline status
+        if (!response.ok || data.offline || data.error) {
+            console.log('⚠️ API is offline, using local responses');
             updateCappiStatus(false);
             return getOfflineResponse(userMessage);
         }
@@ -761,10 +758,13 @@ async function getGeminiResponse(userMessage) {
         
         if (reply && reply.trim()) {
             // API is working
+            console.log('✅ Cappi is ONLINE');
             updateCappiStatus(true);
             return reply;
         } else {
-            throw new Error('Empty response from API');
+            console.log('⚠️ Empty response, going offline');
+            updateCappiStatus(false);
+            return getOfflineResponse(userMessage);
         }
         
     } catch (error) {

@@ -96,12 +96,10 @@ Remember: Stay focused on Grosity. If the question is off-topic, say something l
 
     } catch (error) {
         console.error('Cappi API Error:', error);
-        res.status(200).json({
-            candidates: [{
-                content: {
-                    parts: [{ text: "I'm currently in offline mode. For assistance, contact +91 73096 85242 or grosity.connect@gmail.com" }]
-                }
-            }]
+        res.status(500).json({
+            error: 'API Error',
+            offline: true,
+            message: "I'm currently in offline mode. For assistance, contact +91 73096 85242 or grosity.connect@gmail.com"
         });
     }
 }
