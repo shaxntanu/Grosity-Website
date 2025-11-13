@@ -319,6 +319,9 @@ function selectLanguage(langCode, langName) {
     // Show loader
     showLoader();
 
+    // Track language change
+    trackLanguageChange(langCode, langName);
+
     // Update selected language display
     document.getElementById('selectedLanguage').textContent = langName;
 
@@ -406,6 +409,15 @@ function handleSubmit(event) {
             console.log('✅ Message saved with ID:', docRef.id);
             hideLoader();
 
+            // Track form submission
+            if (typeof analytics !== 'undefined') {
+                analytics.logEvent('form_submit', {
+                    form_name: 'contact_form',
+                    form_destination: 'firestore',
+                    success: true
+                });
+            }
+
             // Show success message after loader hides
             setTimeout(() => {
                 alert('Thank you for your message! We will get back to you soon.\n\nFor immediate assistance:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
@@ -415,6 +427,16 @@ function handleSubmit(event) {
         .catch(function(error) {
             console.error('❌ Error saving message:', error);
             hideLoader();
+
+            // Track form submission error
+            if (typeof analytics !== 'undefined') {
+                analytics.logEvent('form_submit', {
+                    form_name: 'contact_form',
+                    form_destination: 'firestore',
+                    success: false,
+                    error: error.message
+                });
+            }
 
             // Show error message
             setTimeout(() => {
@@ -470,13 +492,18 @@ fetchWithLoader('/api/data')
 // Chatbot Functions
 function toggleChat() {
     const chatWindow = document.getElementById('chatWindow');
+    const isOpening = !chatWindow.classList.contains('active');
     chatWindow.classList.toggle('active');
     
-    // Focus input when opening
-    if (chatWindow.classList.contains('active')) {
+    // Track chatbot open/close
+    if (isOpening) {
+        trackChatbotOpen();
+        // Focus input when opening
         setTimeout(() => {
             document.getElementById('chatInput').focus();
         }, 300);
+    } else {
+        trackChatbotClose();
     }
 }
 
@@ -527,6 +554,9 @@ function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}-message`;
     
+    // Track message
+    trackChatbotMessage(text, sender === 'user');
+    
     if (sender === 'bot') {
         // Format the message with clickable links
         const formattedText = formatMessageWithLinks(text);
@@ -574,6 +604,9 @@ function formatMessageWithLinks(text) {
 }
 
 async function askFAQ(question) {
+    // Track FAQ click
+    trackFAQClick(question);
+    
     // Add user question
     addMessage(question, 'user');
     
@@ -835,4 +868,260 @@ document.addEventListener('click', function(e) {
             chatWindow.classList.remove('active');
         }
     }
+});
+
+
+// ============================================
+// FIREBASE ANALYTICS TRACKING
+// ============================================
+
+// Track scroll depth
+let scrollDepthTracked = {
+    '25': false,
+    '50': false,
+    '75': false,
+    '90': false,
+    '100': false
+};
+
+window.addEventListener('scroll', function() {
+    const scrollPercentage = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+    
+    // Track 25% scroll
+    if (scrollPercentage >= 25 && !scrollDepthTracked['25']) {
+        scrollDepthTracked['25'] = true;
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('scroll_depth', {
+                depth_percentage: 25,
+                page_path: window.location.pathname
+            });
+        }
+    }
+    
+    // Track 50% scroll
+    if (scrollPercentage >= 50 && !scrollDepthTracked['50']) {
+        scrollDepthTracked['50'] = true;
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('scroll_depth', {
+                depth_percentage: 50,
+                page_path: window.location.pathname
+            });
+        }
+    }
+    
+    // Track 75% scroll
+    if (scrollPercentage >= 75 && !scrollDepthTracked['75']) {
+        scrollDepthTracked['75'] = true;
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('scroll_depth', {
+                depth_percentage: 75,
+                page_path: window.location.pathname
+            });
+        }
+    }
+    
+    // Track 90% scroll
+    if (scrollPercentage >= 90 && !scrollDepthTracked['90']) {
+        scrollDepthTracked['90'] = true;
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('scroll_depth', {
+                depth_percentage: 90,
+                page_path: window.location.pathname
+            });
+        }
+    }
+    
+    // Track 100% scroll
+    if (scrollPercentage >= 100 && !scrollDepthTracked['100']) {
+        scrollDepthTracked['100'] = true;
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('scroll_depth', {
+                depth_percentage: 100,
+                page_path: window.location.pathname
+            });
+        }
+    }
+}, { passive: true });
+
+// Track engagement time
+let engagementStartTime = Date.now();
+let isPageVisible = true;
+let totalEngagementTime = 0;
+
+// Track when user leaves/returns to page
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        // User left the page
+        isPageVisible = false;
+        const sessionTime = Math.round((Date.now() - engagementStartTime) / 1000);
+        totalEngagementTime += sessionTime;
+        
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('user_engagement', {
+                engagement_time_msec: sessionTime * 1000,
+                page_path: window.location.pathname
+            });
+        }
+    } else {
+        // User returned to page
+        isPageVisible = true;
+        engagementStartTime = Date.now();
+    }
+});
+
+// Track engagement on page unload
+window.addEventListener('beforeunload', function() {
+    if (isPageVisible) {
+        const sessionTime = Math.round((Date.now() - engagementStartTime) / 1000);
+        totalEngagementTime += sessionTime;
+        
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('user_engagement', {
+                engagement_time_msec: sessionTime * 1000,
+                total_engagement_time_msec: totalEngagementTime * 1000,
+                page_path: window.location.pathname
+            });
+        }
+    }
+});
+
+// Track button clicks
+document.addEventListener('click', function(e) {
+    // Track navigation clicks
+    if (e.target.tagName === 'A' || e.target.closest('a')) {
+        const link = e.target.tagName === 'A' ? e.target : e.target.closest('a');
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('click', {
+                link_text: link.textContent.trim(),
+                link_url: link.href,
+                link_domain: link.hostname,
+                outbound: link.hostname !== window.location.hostname
+            });
+        }
+    }
+    
+    // Track button clicks
+    if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        const button = e.target.tagName === 'BUTTON' ? e.target : e.target.closest('button');
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('button_click', {
+                button_text: button.textContent.trim(),
+                button_class: button.className,
+                page_path: window.location.pathname
+            });
+        }
+    }
+});
+
+// Track social media clicks
+document.querySelectorAll('.socialContainer').forEach(function(socialLink) {
+    socialLink.addEventListener('click', function(e) {
+        const platform = this.classList.contains('containerOne') ? 'Instagram' :
+                        this.classList.contains('containerTwo') ? 'LinkedIn' :
+                        this.classList.contains('containerThree') ? 'WhatsApp' :
+                        this.classList.contains('containerFour') ? 'Facebook' : 'Unknown';
+        
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('social_click', {
+                platform: platform,
+                link_url: this.href
+            });
+        }
+    });
+});
+
+// Track language changes
+function trackLanguageChange(langCode, langName) {
+    if (typeof analytics !== 'undefined') {
+        analytics.logEvent('language_change', {
+            language_code: langCode,
+            language_name: langName
+        });
+    }
+}
+
+// Track dark mode toggle
+const darkModeToggleElement = document.getElementById('darkModeToggle');
+if (darkModeToggleElement) {
+    darkModeToggleElement.addEventListener('change', function() {
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('theme_change', {
+                theme: this.checked ? 'dark' : 'light'
+            });
+        }
+    });
+}
+
+// Track chatbot interactions
+function trackChatbotOpen() {
+    if (typeof analytics !== 'undefined') {
+        analytics.logEvent('chatbot_open', {
+            page_path: window.location.pathname
+        });
+    }
+}
+
+function trackChatbotMessage(message, isUser) {
+    if (typeof analytics !== 'undefined') {
+        analytics.logEvent('chatbot_message', {
+            message_type: isUser ? 'user' : 'bot',
+            message_length: message.length,
+            page_path: window.location.pathname
+        });
+    }
+}
+
+function trackChatbotClose() {
+    if (typeof analytics !== 'undefined') {
+        analytics.logEvent('chatbot_close', {
+            page_path: window.location.pathname
+        });
+    }
+}
+
+// Track FAQ button clicks
+function trackFAQClick(question) {
+    if (typeof analytics !== 'undefined') {
+        analytics.logEvent('faq_click', {
+            question: question,
+            page_path: window.location.pathname
+        });
+    }
+}
+
+// Track section views (when user scrolls to a section)
+const sections = document.querySelectorAll('section[id]');
+const sectionViews = new Set();
+
+const sectionObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting && !sectionViews.has(entry.target.id)) {
+            sectionViews.add(entry.target.id);
+            if (typeof analytics !== 'undefined') {
+                analytics.logEvent('section_view', {
+                    section_id: entry.target.id,
+                    section_name: entry.target.querySelector('h2')?.textContent || entry.target.id
+                });
+            }
+        }
+    });
+}, { threshold: 0.5 });
+
+sections.forEach(function(section) {
+    sectionObserver.observe(section);
+});
+
+// Track card interactions
+document.querySelectorAll('.card').forEach(function(card) {
+    card.addEventListener('click', function() {
+        const cardTitle = this.querySelector('.title')?.textContent || 'Unknown';
+        if (typeof analytics !== 'undefined') {
+            analytics.logEvent('card_click', {
+                card_title: cardTitle,
+                card_type: this.classList.contains('card-farmer') ? 'Farmer' :
+                           this.classList.contains('card-vendor') ? 'Vendor' :
+                           this.classList.contains('card-consumer') ? 'Consumer' : 'Unknown'
+            });
+        }
+    });
 });

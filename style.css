@@ -1653,7 +1653,69 @@ footer {
     }
 }
 
-@media (max-width: 480px) {
+/* Extra Small Devices (phones, less than 375px) */
+@media (max-width: 374px) {
+    nav .container {
+        padding: 0 10px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav ul {
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    nav .logo {
+        font-size: 1.3rem;
+        margin-right: 0;
+    }
+
+    .nav-spacer {
+        display: none;
+    }
+
+    .dropdown-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .theme-switch {
+        --toggle-size: 8px;
+    }
+
+    section {
+        padding: 40px 10px;
+    }
+
+    .hero {
+        padding: 60px 10px;
+        min-height: 50vh;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Small Devices (phones, 375px to 480px) */
+@media (min-width: 375px) and (max-width: 480px) {
     section {
         padding: 60px 15px;
     }
@@ -1663,8 +1725,9 @@ footer {
     }
 
     nav ul {
-        gap: 1rem;
+        gap: 0.8rem;
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     nav .logo {
@@ -1677,6 +1740,15 @@ footer {
         margin: 15px auto;
         border-radius: 20px;
         width: calc(100% - 30px);
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        padding: 0 5px;
     }
 
     .social-section {
@@ -1703,11 +1775,14 @@ footer {
     .input-container .input,
     .input-container textarea {
         box-shadow: 4px 4px 0px 0px var(--input-border);
+        font-size: 0.9rem;
     }
 
     .card-social {
         padding: 15px;
         gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .nav-spacer {
@@ -1715,12 +1790,40 @@ footer {
     }
 
     .button {
-        width: 160px;
+        width: 100%;
+        max-width: 200px;
         height: 45px;
+        font-size: 0.9rem;
     }
 
     .card {
-        width: 18em;
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 10px;
+    }
+
+    section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .about-text p,
+    .service-card p {
+        font-size: 0.9rem;
+    }
+
+    .contact-form {
+        padding: 0;
+    }
+
+    footer {
+        padding: 1.5rem;
+        font-size: 0.85rem;
     }
 
     /* MOBILE DARK MODE FIX */
@@ -1804,6 +1907,38 @@ footer {
 
     .service-card {
         padding: 20px;
+    }
+
+    nav ul {
+        gap: 1rem;
+    }
+
+    nav a {
+        font-size: 0.85rem;
+    }
+
+    .dropdown-button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .hero {
+        width: calc(100% - 40px);
+        margin: 20px auto;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .about-features .feature-item {
+        padding: 20px;
+    }
+
+    .tagline {
+        padding: 1.5rem;
+        font-size: 1rem;
     }
 }
 
