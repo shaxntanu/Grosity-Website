@@ -613,6 +613,57 @@ async function askFAQ(question) {
     // Show typing indicator
     showTypingIndicator();
     
+    // Use pre-defined answers for FAQ buttons (no API call)
+    setTimeout(() => {
+        removeTypingIndicator();
+        const response = getFAQResponse(question);
+        addMessage(response, 'bot');
+    }, 600);
+}
+
+// Pre-defined FAQ responses (instant, no API needed)
+function getFAQResponse(question) {
+    const lowerQuestion = question.toLowerCase();
+    
+    if (lowerQuestion.includes('what is grosity')) {
+        return "Grosity is a Patiala-based fresh produce startup that connects farmers, vendors, and customers through a transparent supply chain.\n\nWe deliver farm-fresh vegetables directly from farmers to your doorstep - no middlemen, no compromises! 🌾✨";
+    }
+    
+    if (lowerQuestion.includes('how do i order')) {
+        return "Ordering is easy! 📦\n\n1. Click 'Consumer' button on website\n2. Or WhatsApp us at:\n+91 73096 85242\n\n3. Tell us what you need\n4. We deliver to your doorstep!\n\nFast, fresh, and fair! 🚚";
+    }
+    
+    if (lowerQuestion.includes('delivery areas')) {
+        return "We deliver in Patiala and nearby areas in Punjab! 📍\n\nOur delivery is super fast - farm to door within hours of harvest.\n\nPlanning to expand soon!\n\nContact us:\n+91 73096 85242";
+    }
+    
+    if (lowerQuestion.includes('for farmers')) {
+        return "🌾 Benefits for Farmers:\n\n✅ Fair & consistent rates\n✅ No price volatility\n✅ Direct market access\n✅ Guaranteed demand\n✅ No exploitative middlemen\n\nJoin our network!\n\nContact:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    if (lowerQuestion.includes('for vendors')) {
+        return "🏪 Benefits for Vendors:\n\n✅ No more 4 AM mandi runs\n✅ Reliable daily supply\n✅ Fresh stock guaranteed\n✅ Delivered to your shop\n✅ Consistent pricing\n\nInterested?\n\nCall us:\n+91 73096 85242\ngrosity.connect@gmail.com";
+    }
+    
+    if (lowerQuestion.includes('contact info')) {
+        return "📞 Contact Grosity:\n\n📧 Email:\ngrosity.connect@gmail.com\n\n📱 Phone:\n+91 73096 85242\n\n📍 Location:\nPatiala, Punjab, India\n\nWe're here to help! Reach out anytime 😊";
+    }
+    
+    // Fallback for any other FAQ question
+    return getOfflineResponse(question);
+}
+
+// Keep the old async function for typed messages (uses AI)
+async function askFAQOld(question) {
+    // Track FAQ click
+    trackFAQClick(question);
+    
+    // Add user question
+    addMessage(question, 'user');
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
     try {
         // Get response from Gemini API
         const response = await getGeminiResponse(question);
