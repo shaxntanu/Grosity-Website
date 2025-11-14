@@ -67,8 +67,9 @@ ORDERING PROCESS:
 
 Remember: Stay focused on Grosity. If the question is off-topic, say something like: "I'm Cappi, Grosity's assistant! I can help with questions about fresh produce, ordering, or joining our network. What would you like to know about Grosity? 🌾"`;
 
-        // Call Gemini API with environment variable
-        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + process.env.GEMINI_API_KEY, {
+        // Call Gemini API with hardcoded key
+        const apiKey = process.env.GEMINI_API_KEY || 'AIzaSyCJxk15YpSvbNUVRqfggOVhy0JiGEMRUN8';
+        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + apiKey, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
