@@ -1418,18 +1418,18 @@ html.dark-mode .input-container textarea:valid~.label {
 }
 
 .button {
-    height: 50px;
-    width: 200px;
+    height: clamp(45px, 7vh, 50px);
+    width: clamp(180px, 30vw, 200px);
     position: relative;
     background-color: #FFD700;
     cursor: pointer;
-    border: 2px solid #000000;
+    border: clamp(1.5px, 0.3vw, 2px) solid #000000;
     overflow: hidden;
-    border-radius: 30px;
+    border-radius: clamp(25px, 4vw, 30px);
     color: #000000;
     transition: all 0.5s ease-in-out;
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: clamp(1px, 0.3vw, 2px);
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(0.8rem, 1.5vw, 0.95rem);
     display: flex;
