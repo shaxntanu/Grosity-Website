@@ -1,0 +1,18 @@
+[build]
+  publish = "."
+  command = "echo 'No build needed'"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[dev]
+  command = "echo 'Dev server ready'"
+  port = 8888
+  targetPort = 8888
+  publish = "."
+  autoLaunch = false

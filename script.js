@@ -727,6 +727,53 @@ function updateCappiStatus(online) {
     }
 }
 
+// Check Cappi status on page load
+async function checkCappiStatus() {
+    try {
+        console.log('🔍 Checking Cappi status...');
+        
+        // Set status to checking
+        const statusElement = document.querySelector('.chat-status');
+        if (statusElement) {
+            statusElement.textContent = 'Checking...';
+        }
+        
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: 'Hello'
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // Check if we got a valid response (not an error)
+            if (data.candidates?.[0]?.content?.parts?.[0]?.text && !data.offline && !data.error) {
+                console.log('✅ Cappi is ONLINE');
+                updateCappiStatus(true);
+            } else {
+                console.log('⚠️ Cappi is OFFLINE - API returned error or offline status');
+                console.log('Response data:', data);
+                updateCappiStatus(false);
+            }
+        } else {
+            console.log('⚠️ Cappi is OFFLINE - HTTP error:', response.status);
+            updateCappiStatus(false);
+        }
+    } catch (error) {
+        console.error('💥 Cappi status check failed:', error);
+        updateCappiStatus(false);
+    }
+}
+
+// Check status when page loads
+window.addEventListener('load', function() {
+    setTimeout(checkCappiStatus, 1500);
+});
+
 // Gemini API Integration via Backend
 async function getGeminiResponse(userMessage) {
     try {
