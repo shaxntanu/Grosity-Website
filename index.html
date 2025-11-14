@@ -456,6 +456,21 @@
     const db = firebase.firestore();
     const analytics = firebase.analytics();
     
+    // Enable Firestore offline persistence for faster writes
+    db.enablePersistence({ synchronizeTabs: true })
+      .catch(function(err) {
+        if (err.code == 'failed-precondition') {
+          console.log('Persistence failed: Multiple tabs open');
+        } else if (err.code == 'unimplemented') {
+          console.log('Persistence not available');
+        }
+      });
+    
+    // Pre-warm Firestore connection
+    db.collection('contacts').limit(1).get()
+      .then(() => console.log('✅ Firestore connection ready'))
+      .catch(() => console.log('⚠️ Firestore pre-warm failed'));
+    
     // Track page view
     analytics.logEvent('page_view', {
       page_title: document.title,

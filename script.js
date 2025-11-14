@@ -415,11 +415,9 @@ function handleSubmit(event) {
                 success: true
             });
 
-            // Show success message
-            setTimeout(() => {
-                alert('Thank you for your message! We will get back to you soon.\n\nFor immediate assistance:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
-                event.target.reset();
-            }, 700);
+            // Show success message immediately
+            alert('Thank you for your message! We will get back to you soon.\n\nFor immediate assistance:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
+            event.target.reset();
         })
         .catch(function(error) {
             console.error('❌ Error saving message:', error);
@@ -432,10 +430,8 @@ function handleSubmit(event) {
                 error: error.message
             });
 
-            // Show error message
-            setTimeout(() => {
-                alert('Sorry, there was an error submitting your message.\n\nPlease contact us directly:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
-            }, 700);
+            // Show error message immediately
+            alert('Sorry, there was an error submitting your message.\n\nPlease contact us directly:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
         });
 }
 
