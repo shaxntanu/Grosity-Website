@@ -2822,11 +2822,12 @@ html.dark-mode .faq-btn {
     .chat-window {
         width: calc(100vw - 20px);
         max-width: calc(100vw - 20px);
-        height: calc(100vh - 120px);
-        max-height: calc(100vh - 120px);
-        bottom: 85px;
+        height: 500px;
+        max-height: calc(100vh - 180px);
+        bottom: 90px;
         right: 10px;
         left: 10px;
+        margin: 0 auto;
         border-radius: 15px;
     }
 
