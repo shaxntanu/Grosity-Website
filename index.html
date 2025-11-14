@@ -471,11 +471,46 @@
       .then(() => console.log('✅ Firestore connection ready'))
       .catch(() => console.log('⚠️ Firestore pre-warm failed'));
     
-    // Track page view
+    // Track page view in Firebase Analytics
     analytics.logEvent('page_view', {
       page_title: document.title,
       page_location: window.location.href,
       page_path: window.location.pathname
+    });
+    
+    // Store analytics in Firestore for admin dashboard
+    const today = new Date().toISOString().split('T')[0];
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayOfWeek = dayNames[new Date().getDay()];
+    
+    const analyticsRef = db.collection('admin_analytics').doc(today);
+    
+    analyticsRef.get().then(doc => {
+      if (doc.exists) {
+        // Update existing document
+        analyticsRef.update({
+          pageViews: firebase.firestore.FieldValue.increment(1),
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        console.log('📊 Analytics updated for', today);
+      } else {
+        // Create new document for today
+        analyticsRef.set({
+          date: today,
+          dayOfWeek: dayOfWeek,
+          pageViews: 1,
+          uniqueVisitors: 1,
+          chatbotInteractions: 0,
+          contactSubmissions: 0,
+          avgSessionDuration: 0,
+          totalEngagementTime: 0,
+          created: firebase.firestore.FieldValue.serverTimestamp(),
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        console.log('📊 Analytics created for', today);
+      }
+    }).catch(err => {
+      console.error('❌ Analytics error:', err);
     });
   </script>
   

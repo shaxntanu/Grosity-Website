@@ -409,11 +409,18 @@ function handleSubmit(event) {
             console.log('✅ Message saved with ID:', docRef.id);
             hideLoader();
 
-            // Track form submission
+            // Track form submission in Firebase Analytics
             analytics.logEvent('form_submit', {
                 form_name: 'contact_form',
                 success: true
             });
+            
+            // Update admin_analytics collection
+            const today = new Date().toISOString().split('T')[0];
+            db.collection('admin_analytics').doc(today).update({
+                contactSubmissions: firebase.firestore.FieldValue.increment(1),
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(err => console.log('Analytics update:', err));
 
             // Show success message immediately
             alert('Thank you for your message! We will get back to you soon.\n\nFor immediate assistance:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
@@ -1057,6 +1064,13 @@ window.addEventListener('beforeunload', function() {
 // Track chatbot interactions
 function trackChatbotOpen() {
     analytics.logEvent('chatbot_open');
+    
+    // Update admin_analytics collection
+    const today = new Date().toISOString().split('T')[0];
+    db.collection('admin_analytics').doc(today).update({
+        chatbotInteractions: firebase.firestore.FieldValue.increment(1),
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(err => console.log('Analytics update:', err));
 }
 
 function trackChatbotClose() {
