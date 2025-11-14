@@ -135,7 +135,7 @@ body.page-loaded {
 nav {
     background: var(--nav-bg);
     color: var(--nav-text);
-    padding: 1rem 0;
+    padding: clamp(0.75rem, 1.5vh, 1rem) 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -146,7 +146,7 @@ nav {
 nav .container {
     max-width: 100%;
     margin: 0;
-    padding: 0 40px;
+    padding: 0 clamp(20px, 4vw, 40px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -154,7 +154,7 @@ nav .container {
 }
 
 nav .logo {
-    font-size: 1.8rem;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
     font-weight: 900;
     color: #FFD700;
     letter-spacing: -1px;
@@ -176,7 +176,7 @@ nav .logo:hover {
 nav ul {
     list-style: none;
     display: flex;
-    gap: 2rem;
+    gap: clamp(1rem, 2.5vw, 2rem);
     align-items: center;
     flex-wrap: wrap;
 }
@@ -186,7 +186,7 @@ nav a {
     text-decoration: none;
     transition: color 0.3s ease;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 1.5vw, 0.95rem);
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
@@ -698,15 +698,15 @@ html.dark-mode .dropdown-row:active {
 }
 
 section {
-    max-width: 1200px;
+    max-width: min(1200px, 95vw);
     margin: 0 auto;
-    padding: 80px 20px;
+    padding: clamp(40px, 8vh, 80px) clamp(15px, 3vw, 20px);
 }
 
 section h2 {
     font-size: clamp(1.8rem, 4vw, 2.5rem);
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: clamp(2rem, 4vh, 3rem);
     color: var(--text-primary);
     font-weight: 700;
     letter-spacing: -0.8px;
@@ -720,9 +720,9 @@ section h2 {
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: clamp(2rem, 4vh, 3rem);
     justify-items: center;
 }
 
@@ -738,11 +738,11 @@ section h2 {
     --pattern-color: #cfcfcf;
 
     position: relative;
-    width: 20em;
+    width: min(20em, 100%);
     background: var(--bg);
-    border: 0.35em solid var(--text);
-    border-radius: 0.6em;
-    box-shadow: 0.7em 0.7em 0 var(--shadow-color), inset 0 0 0 0.15em rgba(0, 0, 0, 0.05);
+    border: clamp(0.25em, 0.5vw, 0.35em) solid var(--text);
+    border-radius: clamp(0.5em, 1vw, 0.6em);
+    box-shadow: clamp(0.5em, 1vw, 0.7em) clamp(0.5em, 1vw, 0.7em) 0 var(--shadow-color), inset 0 0 0 0.15em rgba(0, 0, 0, 0.05);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     overflow: hidden;
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -1105,8 +1105,8 @@ section h2 {
 
 .about-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+    gap: clamp(2rem, 4vw, 3rem);
     align-items: start;
 }
 
@@ -1127,12 +1127,12 @@ section h2 {
 .about-text .tagline {
     background: #22C55E;
     color: #000000;
-    padding: 2rem;
-    border-radius: 12px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: clamp(10px, 1.5vw, 12px);
     text-align: center;
     font-size: clamp(1rem, 2vw, 1.3rem);
     font-weight: 600;
-    margin-top: 2rem;
+    margin-top: clamp(1.5rem, 3vh, 2rem);
     line-height: 1.8;
     font-family: 'Playfair Display', serif;
     letter-spacing: -0.5px;
@@ -1140,14 +1140,14 @@ section h2 {
 
 .about-features {
     display: grid;
-    gap: 1.5rem;
+    gap: clamp(1rem, 2vw, 1.5rem);
 }
 
 .about-features .feature-item {
     background: var(--card-bg);
-    padding: 24px;
-    border-radius: 12px;
-    border-left: 4px solid #22C55E;
+    padding: clamp(18px, 3vw, 24px);
+    border-radius: clamp(10px, 1.5vw, 12px);
+    border-left: clamp(3px, 0.5vw, 4px) solid #22C55E;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 8px var(--card-shadow);
 }
@@ -1179,15 +1179,15 @@ section h2 {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: clamp(2rem, 4vh, 3rem);
 }
 
 .service-card {
     background: var(--card-bg);
-    padding: 30px;
-    border-radius: 16px;
+    padding: clamp(20px, 4vw, 30px);
+    border-radius: clamp(12px, 2vw, 16px);
     text-align: center;
     box-shadow: 0 2px 8px var(--card-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1222,8 +1222,8 @@ section h2 {
 
 .contact-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+    gap: clamp(2rem, 4vw, 3rem);
 }
 
 .contact-info {
@@ -1291,22 +1291,22 @@ section h2 {
 .input-container {
     position: relative;
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: clamp(20px, 4vh, 30px);
 }
 
 .input-container .input,
 .input-container textarea {
     width: 100%;
-    padding: 12px 10px;
-    min-height: 45px;
-    border: 2px solid var(--input-border);
+    padding: clamp(10px, 2vh, 12px) clamp(8px, 1.5vw, 10px);
+    min-height: clamp(40px, 6vh, 45px);
+    border: clamp(1.5px, 0.3vw, 2px) solid var(--input-border);
     border-top: none;
     border-bottom: none;
     font-size: clamp(16px, 2.5vw, 18px);
     background: var(--bg-primary);
     color: #000000;
     outline: none;
-    box-shadow: 7px 7px 0px 0px var(--input-border);
+    box-shadow: clamp(5px, 1vw, 7px) clamp(5px, 1vw, 7px) 0px 0px var(--input-border);
     transition: all 0.5s;
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -1317,7 +1317,7 @@ html.dark-mode .input-container textarea {
 }
 
 .input-container textarea {
-    min-height: 150px;
+    min-height: clamp(120px, 20vh, 150px);
     resize: vertical;
 }
 
@@ -2362,8 +2362,8 @@ html.dark-mode .road::after {
 
 /* Chatbot Styles */
 .chatBtn {
-    width: 65px;
-    height: 65px;
+    width: clamp(55px, 8vw, 70px);
+    height: clamp(55px, 8vw, 70px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2373,8 +2373,8 @@ html.dark-mode .road::after {
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: clamp(20px, 3vh, 30px);
+    right: clamp(20px, 3vw, 30px);
     background-size: 300%;
     background-position: left;
     transition: all 0.4s ease;
@@ -2468,14 +2468,13 @@ html.dark-mode .road::after {
 /* Chat Window */
 .chat-window {
     position: fixed;
-    bottom: 110px;
-    right: 30px;
-    width: 360px;
-    max-width: calc(100vw - 60px);
-    height: 480px;
+    bottom: clamp(90px, 12vh, 110px);
+    right: clamp(20px, 3vw, 30px);
+    width: min(360px, calc(100vw - 60px));
+    height: clamp(400px, 60vh, 520px);
     max-height: calc(100vh - 160px);
     background: var(--card-bg);
-    border-radius: 20px;
+    border-radius: clamp(15px, 2vw, 20px);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
@@ -2496,11 +2495,11 @@ html.dark-mode .road::after {
 
 .chat-header {
     background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
-    padding: 20px;
+    padding: clamp(15px, 2.5vh, 20px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 18px 18px 0 0;
+    border-radius: clamp(15px, 2vw, 18px) clamp(15px, 2vw, 18px) 0 0;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -2511,8 +2510,8 @@ html.dark-mode .road::after {
 }
 
 .chat-header-avatar {
-    width: 45px;
-    height: 45px;
+    width: clamp(40px, 6vw, 45px);
+    height: clamp(40px, 6vw, 45px);
     border-radius: 50%;
     border: 3px solid #ffffff;
     object-fit: cover;
@@ -2521,7 +2520,7 @@ html.dark-mode .road::after {
 
 .chat-header-text h3 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2vw, 1.1rem);
     font-weight: 700;
     color: #000000;
     font-family: 'Playfair Display', serif;
@@ -2808,57 +2807,77 @@ html.dark-mode .faq-btn {
 
 /* Mobile Responsive */
 @media (max-width: 480px) {
-    .chatBtn {
-        width: 55px;
-        height: 55px;
-        bottom: 20px;
-        right: 20px;
-    }
-
     .tooltip {
         display: none;
     }
 
     .chat-window {
         width: calc(100vw - 20px);
-        max-width: calc(100vw - 20px);
-        height: 500px;
-        max-height: calc(100vh - 180px);
-        bottom: 90px;
         right: 10px;
         left: 10px;
         margin: 0 auto;
-        border-radius: 15px;
     }
 
     .chat-header {
-        padding: 15px;
+        padding: clamp(12px, 2vh, 15px);
     }
 
     .chat-header-avatar {
-        width: 40px;
-        height: 40px;
+        width: clamp(35px, 6vw, 40px);
+        height: clamp(35px, 6vw, 40px);
     }
 
     .chat-messages {
-        padding: 15px;
+        padding: clamp(12px, 2vh, 15px);
     }
 
     .message-content {
         max-width: 80%;
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
     }
 
     .faq-btn {
-        font-size: 0.8rem;
-        padding: 7px 12px;
+        font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+        padding: clamp(6px, 1vh, 8px) clamp(10px, 2vw, 14px);
     }
 }
 
-@media (min-width: 481px) and (max-width: 768px) {
+/* Landscape mode for mobile devices */
+@media (max-height: 500px) and (orientation: landscape) {
     .chat-window {
-        width: 340px;
-        height: 460px;
-        max-height: calc(100vh - 160px);
+        height: calc(100vh - 80px);
+        max-height: calc(100vh - 80px);
+    }
+
+    .chat-header {
+        padding: clamp(8px, 1.5vh, 12px) clamp(12px, 2vw, 15px);
+    }
+
+    .chat-header-avatar {
+        width: clamp(30px, 5vw, 35px);
+        height: clamp(30px, 5vw, 35px);
+    }
+
+    .chat-header-text h3 {
+        font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+    }
+
+    .chat-messages {
+        padding: clamp(8px, 1.5vh, 12px);
+    }
+
+    .faq-buttons {
+        padding: clamp(6px, 1vh, 10px);
+        gap: clamp(4px, 0.8vw, 6px);
+    }
+
+    .faq-btn {
+        font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+        padding: clamp(5px, 1vh, 7px) clamp(8px, 1.5vw, 12px);
+    }
+
+    .chat-input-container {
+        padding: clamp(8px, 1.5vh, 12px);
     }
 }
 
