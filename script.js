@@ -404,9 +404,12 @@ function handleSubmit(event) {
     };
 
     // Save to Firebase Firestore
+    console.log('🔍 [DEBUG] Submitting contact form...');
+    console.log('🔍 [DEBUG] Form data:', formData);
+    
     db.collection('contacts').add(formData)
         .then(function(docRef) {
-            console.log('✅ Message saved with ID:', docRef.id);
+            console.log('✅ [SUCCESS] Contact saved with ID:', docRef.id);
             hideLoader();
 
             // Track form submission in Firebase Analytics
@@ -417,17 +420,27 @@ function handleSubmit(event) {
             
             // Update admin_analytics collection
             const today = new Date().toISOString().split('T')[0];
+            console.log('🔍 [DEBUG] Updating contactSubmissions for:', today);
+            
             db.collection('admin_analytics').doc(today).update({
                 contactSubmissions: firebase.firestore.FieldValue.increment(1),
                 lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-            }).catch(err => console.log('Analytics update:', err));
+            }).then(() => {
+                console.log('✅ [SUCCESS] contactSubmissions incremented for', today);
+            }).catch(err => {
+                console.error('❌ [ERROR] Analytics update failed:', err);
+                console.error('❌ [ERROR] This might mean the document doesn\'t exist yet');
+                console.error('❌ [ERROR] Try visiting the homepage first to create it');
+            });
 
             // Show success message immediately
             alert('Thank you for your message! We will get back to you soon.\n\nFor immediate assistance:\n📧 grosity.connect@gmail.com\n📱 +91 73096 85242');
             event.target.reset();
         })
         .catch(function(error) {
-            console.error('❌ Error saving message:', error);
+            console.error('❌ [ERROR] Contact form submission failed:', error);
+            console.error('❌ [ERROR] Error code:', error.code);
+            console.error('❌ [ERROR] Error message:', error.message);
             hideLoader();
 
             // Track form submission error
@@ -1063,14 +1076,23 @@ window.addEventListener('beforeunload', function() {
 
 // Track chatbot interactions
 function trackChatbotOpen() {
+    console.log('🔍 [DEBUG] Chatbot opened');
     analytics.logEvent('chatbot_open');
     
     // Update admin_analytics collection
     const today = new Date().toISOString().split('T')[0];
+    console.log('🔍 [DEBUG] Updating chatbotInteractions for:', today);
+    
     db.collection('admin_analytics').doc(today).update({
         chatbotInteractions: firebase.firestore.FieldValue.increment(1),
         lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-    }).catch(err => console.log('Analytics update:', err));
+    }).then(() => {
+        console.log('✅ [SUCCESS] chatbotInteractions incremented for', today);
+    }).catch(err => {
+        console.error('❌ [ERROR] Chatbot analytics update failed:', err);
+        console.error('❌ [ERROR] Error code:', err.code);
+        console.error('❌ [ERROR] This might mean the document doesn\'t exist yet');
+    });
 }
 
 function trackChatbotClose() {
