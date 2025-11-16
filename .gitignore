@@ -38,3 +38,6 @@ ui-debug.log
 *.tmp
 *.temp
 .cache/
+
+# Test files (local only)
+firebase-test.html
